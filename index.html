@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VALENTIN V. — Média</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
+    <style>
+        /* ── VARIABLES ── */
+        :root {
+            --logo-orange:        #FF8C00;
+            --logo-pink:          #FF0080;
+            --logo-yellow:        #FFD700;
+            --logo-cyan:          #00CFFF;
+            --logo-lime:          #AAFF00;
+            --logo-purple:        #9B00FF;
+            --border-black:       4px solid #000;
+            --carousel-duration:  5000ms;
+            --card-width:         400px;
+            --card-img-height:    220px;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff;
+            background-image:
+                linear-gradient(rgba(0,0,0,.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,.06) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: #000;
+            overflow-x: hidden;
+            transition: background-color .5s ease;
+        }
+        body.dark-mode {
+            background-color: #080808;
+            background-image:
+                linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+            color: #fff;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%;
+            height: 100px;
+            background: rgba(255,255,255,.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 3px solid #000;
+        }
+        body.dark-mode nav { background: rgba(8,8,8,.85); border-bottom-color: #fff; }
+
+        .nav-logo {
+            height: 84px; width: auto; display: block;
+            filter: drop-shadow(4px 4px 0 #000);
+            margin: 8px 0; transition: .3s;
+        }
+
+        /* ── DARK MODE BUTTON ── */
+        .dark-btn {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900; font-size: .85rem;
+            text-transform: uppercase; letter-spacing: .03em;
+            padding: 10px 20px;
+            background: #000; color: #fff;
+            border: 3px solid #000; border-radius: 10px;
+            box-shadow: 4px 4px 0 var(--logo-orange);
+            cursor: pointer; white-space: nowrap;
+            transition: transform .2s cubic-bezier(.34,1.56,.64,1),
+                        box-shadow .2s ease, background .2s ease, color .2s ease;
+        }
+        .dark-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--logo-pink); }
+        body.dark-mode .dark-btn { background: #fff; color: #000; border-color: #fff; box-shadow: 4px 4px 0 var(--logo-yellow); }
+        body.dark-mode .dark-btn:hover { box-shadow: 6px 6px 0 var(--logo-cyan); }
+
+        /* ── HERO / CAROUSEL ── */
+        .top-section {
+            background-color: var(--logo-pink);
+            padding: 40px 0 100px;
+            transition: background-color .5s ease;
+        }
+        body.dark-mode .top-section { background: #111; }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 95%; max-width: 1400px;
+            margin: 0 auto;
+            height: 60vh; min-height: 450px;
+            overflow: hidden;
+            border: var(--border-black); border-radius: 30px;
+            background: #fff;
+            box-shadow: 20px 20px 0 #000;
+            z-index: 10;
+        }
+        .carousel-container {
+            display: flex; height: 100%;
+            transition: transform .8s cubic-bezier(.85,0,.15,1);
+        }
+        .slide {
+            min-width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            background-size: cover; background-position: center;
+        }
+        .slide-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.3); z-index: 1; }
+        .slide-content  { position: relative; z-index: 2; text-align: center; color: #fff; }
+
+        .hero-logo {
+            width: 500px; max-width: 90%; height: auto;
+            margin-bottom: 10px;
+            filter: drop-shadow(8px 8px 0 #000);
+        }
+
+        /* Dots */
+        .carousel-dots {
+            position: absolute; bottom: 20px; width: 100%;
+            display: flex; justify-content: center; gap: 10px; z-index: 15;
+        }
+        .dot {
+            height: 14px; width: 14px;
+            border: 2px solid #000; border-radius: 10px;
+            background: rgba(255,255,255,.5);
+            cursor: pointer; position: relative; overflow: hidden; flex-shrink: 0;
+            transition: width .4s cubic-bezier(.4,0,.2,1);
+        }
+        .dot.active { width: 50px; background: rgba(255,255,255,.25); }
+        .dot .progress-fill {
+            position: absolute; left: 0; top: 0;
+            height: 100%; width: 0%;
+            background: #fff; border-radius: 10px; transition: none;
+        }
+        .dot.active .progress-fill { animation: dot-progress var(--carousel-duration) linear forwards; }
+
+        body.dark-mode .dot               { border-color: #fff; background: rgba(255,255,255,.15); }
+        body.dark-mode .dot.active        { background: rgba(255,255,255,.1); }
+        body.dark-mode .dot .progress-fill { background: var(--logo-pink); }
+
+        @keyframes dot-progress { from { width: 0% } to { width: 100% } }
+
+        /* ── MARQUEE ── */
+        .marquee-wrapper {
+            width: 100vw; overflow: hidden;
+            position: relative; z-index: 20;
+            margin-top: -40px; padding: 30px 0;
+        }
+        .pink-marquee {
+            background-color: var(--logo-yellow); color: #000;
+            padding: 25px 0;
+            width: 110vw; margin-left: -5vw;
+            transform: rotate(-1.5deg);
+            font-weight: 900;
+            border-top: var(--border-black); border-bottom: var(--border-black);
+        }
+        body.dark-mode .pink-marquee { background-color: var(--logo-orange); }
+        .marquee-track  { display: inline-flex; white-space: nowrap; animation: marquee-scroll 25s linear infinite; }
+        .marquee-item   { display: flex; align-items: center; gap: 20px; padding: 0 45px; font-size: 1.8rem; white-space: nowrap; }
+
+        @keyframes marquee-scroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+
+        /* ── LAYOUT ── */
+        .container { max-width: 1500px; margin: 80px auto; padding: 0 40px; position: relative; }
+
+        /* ── SECTION TITLES ── */
+        .section-title {
+            font-size: 3rem; text-transform: uppercase; margin-bottom: 50px;
+            display: inline-block;
+            background: #000; color: #fff; padding: 10px 30px;
+            transform: rotate(-1deg);
+            box-shadow: 8px 8px 0 var(--logo-orange);
+            transition: box-shadow .25s ease, background .25s ease, transform .25s ease;
+            cursor: default;
+        }
+        .section-title:hover {
+            background: var(--logo-pink);
+            box-shadow: 10px 10px 0 var(--logo-yellow);
+            transform: rotate(0deg) translate(-2px,-2px);
+        }
+        body.dark-mode .section-title        { background: #fff; color: #000; }
+        body.dark-mode .section-title:hover  { background: var(--logo-pink); color: #fff; }
+
+        .section-title--articles        { box-shadow: 8px 8px 0 var(--logo-pink); }
+        .section-title--articles:hover  { box-shadow: 10px 10px 0 var(--logo-cyan); }
+        .section-title--podcasts        { box-shadow: 8px 8px 0 var(--logo-cyan); }
+        .section-title--podcasts:hover  { box-shadow: 10px 10px 0 var(--logo-lime); }
+        .section-title--social          { box-shadow: 8px 8px 0 var(--logo-purple); }
+        .section-title--social:hover    { box-shadow: 10px 10px 0 var(--logo-orange); }
+
+        /* ── ARTICLES GRID ── */
+        .articles-relative-wrapper { position: relative; width: 100%; }
+
+        .grid-row {
+            display: flex; gap: 40px;
+            overflow-x: auto; padding: 20px 10px 50px;
+            scroll-behavior: smooth; scrollbar-width: none;
+            align-items: stretch;
+        }
+        .grid-row::-webkit-scrollbar { display: none; }
+
+        .scroll-gradient-overlay {
+            position: absolute; right: -10px; top: 0; bottom: 50px; width: 200px;
+            background: linear-gradient(to right, transparent, #fff);
+            pointer-events: none; z-index: 5;
+        }
+        body.dark-mode .scroll-gradient-overlay { background: linear-gradient(to right, transparent, #080808); }
+
+        .floating-arrow {
+            position: absolute; right: 0; top: 45%; transform: translateY(-50%);
+            z-index: 10; width: 70px; height: 70px;
+            background: var(--logo-orange);
+            border: var(--border-black); border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: 900;
+            box-shadow: 6px 6px 0 #000;
+            transition: background .2s, transform .2s, box-shadow .2s, opacity .3s;
+        }
+        .floating-arrow:hover {
+            background: var(--logo-cyan);
+            transform: translateY(-50%) scale(1.12);
+            box-shadow: 8px 8px 0 #000;
+        }
+        .floating-arrow.hidden { opacity: 0; pointer-events: none; }
+
+        /* ── CARDS ── */
+        .card {
+            width: var(--card-width); min-width: var(--card-width); max-width: var(--card-width);
+            flex: 0 0 var(--card-width);
+            display: flex; flex-direction: column;
+            background: #fff; border: var(--border-black); border-radius: 30px;
+            overflow: hidden; box-shadow: 12px 12px 0 #000;
+            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        }
+        body.dark-mode .card { background: #151515; border-color: #fff; box-shadow: 12px 12px 0 #fff; }
+
+        .card:nth-child(1):hover { box-shadow: 14px 14px 0 var(--logo-pink);   border-color: var(--logo-pink);   transform: translate(-3px,-3px); }
+        .card:nth-child(2):hover { box-shadow: 14px 14px 0 var(--logo-cyan);   border-color: var(--logo-cyan);   transform: translate(-3px,-3px); }
+        .card:nth-child(3):hover { box-shadow: 14px 14px 0 var(--logo-lime);   border-color: var(--logo-lime);   transform: translate(-3px,-3px); }
+        .card:nth-child(4):hover { box-shadow: 14px 14px 0 var(--logo-purple); border-color: var(--logo-purple); transform: translate(-3px,-3px); }
+        .card:nth-child(5):hover { box-shadow: 14px 14px 0 var(--logo-orange); border-color: var(--logo-orange); transform: translate(-3px,-3px); }
+        .card:nth-child(6):hover { box-shadow: 14px 14px 0 var(--logo-yellow); border-color: var(--logo-yellow); transform: translate(-3px,-3px); }
+
+        .card-img {
+            height: var(--card-img-height); min-height: var(--card-img-height); max-height: var(--card-img-height);
+            flex-shrink: 0;
+            background-size: cover; background-position: center;
+            border-bottom: var(--border-black);
+            transition: filter .3s ease;
+        }
+        .card:hover .card-img { filter: brightness(1.08) saturate(1.2); }
+
+        .card-body {
+            padding: 28px 30px; flex: 1;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .card-body h3 {
+            margin: 0 0 20px; font-size: 1.3rem; line-height: 1.35;
+            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+            overflow: hidden; transition: color .2s ease;
+        }
+
+        .card:nth-child(1):hover .card-body h3 { color: var(--logo-pink); }
+        .card:nth-child(2):hover .card-body h3 { color: var(--logo-cyan); }
+        .card:nth-child(3):hover .card-body h3 { color: #7ACC00; }
+        .card:nth-child(4):hover .card-body h3 { color: var(--logo-purple); }
+        .card:nth-child(5):hover .card-body h3 { color: var(--logo-orange); }
+        .card:nth-child(6):hover .card-body h3 { color: #ccaa00; }
+
+        /* ── BTN READ ── */
+        .btn-read {
+            display: inline-block; align-self: flex-start;
+            background: var(--logo-orange); color: #fff;
+            padding: 12px 25px; font-weight: 900; text-decoration: none;
+            border: 3px solid #000; border-radius: 10px;
+            box-shadow: 5px 5px 0 #000;
+            transition: transform .2s cubic-bezier(.34,1.56,.64,1),
+                        box-shadow .2s ease, background .2s ease, color .2s ease;
+        }
+        .card:nth-child(1) .btn-read:hover { background: var(--logo-pink);   color: #fff; transform: translate(-4px,-4px) scale(1.05); box-shadow: 9px 9px 0 #000; }
+        .card:nth-child(2) .btn-read:hover { background: var(--logo-cyan);   color: #000; transform: translate(-4px,-4px) scale(1.05); box-shadow: 9px 9px 0 #000; }
+        .card:nth-child(3) .btn-read:hover { background: var(--logo-lime);   color: #000; transform: translate(-4px,-4px) scale(1.05); box-shadow: 9px 9px 0 #000; }
+        .card:nth-child(4) .btn-read:hover { background: var(--logo-purple); color: #fff; transform: translate(-4px,-4px) scale(1.05); box-shadow: 9px 9px 0 #000; }
+        .card:nth-child(5) .btn-read:hover { background: var(--logo-orange); color: #fff; transform: translate(-4px,-4px) scale(1.05); box-shadow: 9px 9px 0 #000; }
+        .card:nth-child(6) .btn-read:hover { background: var(--logo-yellow); color: #000; transform: translate(-4px,-4px) scale(1.05); box-shadow: 9px 9px 0 #000; }
+
+        /* ── SKELETONS ── */
+        @keyframes shimmer {
+            0%   { background-position: -800px 0; }
+            100% { background-position:  800px 0; }
+        }
+        .skeleton {
+            width: var(--card-width); min-width: var(--card-width); flex: 0 0 var(--card-width);
+            border: var(--border-black); border-radius: 30px;
+            overflow: hidden; box-shadow: 12px 12px 0 #000; background: #fff;
+        }
+        body.dark-mode .skeleton { background: #151515; border-color: #fff; box-shadow: 12px 12px 0 #fff; }
+
+        .skeleton-img {
+            height: var(--card-img-height);
+            border-bottom: var(--border-black);
+            background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+            background-size: 800px 100%;
+            animation: shimmer 1.4s infinite linear;
+        }
+        body.dark-mode .skeleton-img {
+            background: linear-gradient(90deg, #222 25%, #2e2e2e 50%, #222 75%);
+            background-size: 800px 100%;
+        }
+        .skeleton-body { padding: 28px 30px; }
+        .skeleton-line {
+            border-radius: 6px; margin-bottom: 14px;
+            background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+            background-size: 800px 100%;
+            animation: shimmer 1.4s infinite linear;
+        }
+        body.dark-mode .skeleton-line {
+            background: linear-gradient(90deg, #222 25%, #2e2e2e 50%, #222 75%);
+            background-size: 800px 100%;
+        }
+        .skeleton-line.l1 { height: 22px; width: 90%; }
+        .skeleton-line.l2 { height: 22px; width: 70%; }
+        .skeleton-line.l3 { height: 22px; width: 50%; margin-bottom: 28px; }
+        .skeleton-btn {
+            height: 46px; width: 140px; border-radius: 10px;
+            background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+            background-size: 800px 100%;
+            animation: shimmer 1.4s infinite linear;
+        }
+        body.dark-mode .skeleton-btn {
+            background: linear-gradient(90deg, #222 25%, #2e2e2e 50%, #222 75%);
+            background-size: 800px 100%;
+        }
+
+        /* ── EMPTY STATE ── */
+        .no-articles {
+            font-size: 1.4rem; font-weight: 900; color: #aaa;
+            padding: 60px 0; text-transform: uppercase;
+        }
+
+        /* ── PODCAST BOX ── */
+        .podcast-box {
+            background: #f0f0f0; border: 5px dashed #000; border-radius: 30px;
+            padding: 80px; text-align: center;
+            font-size: 2rem; font-weight: 900; color: #888; text-transform: uppercase;
+            cursor: default;
+            transition: border-color .3s, background .3s, color .3s, transform .25s cubic-bezier(.34,1.56,.64,1);
+        }
+        .podcast-box:hover { border-color: var(--logo-purple); background: #f5eeff; color: var(--logo-purple); transform: scale(1.015); }
+        body.dark-mode .podcast-box { background: #111; border-color: #444; }
+        body.dark-mode .podcast-box:hover { background: #1a0d2e; border-color: var(--logo-purple); color: var(--logo-purple); }
+
+        /* ── SOCIAL BUTTONS ── */
+        .social-container { display: flex; flex-wrap: wrap; gap: 25px; margin-top: 30px; }
+        .social-btn {
+            padding: 20px 40px; border: var(--border-black); border-radius: 15px;
+            text-decoration: none; font-weight: 900; font-size: 1.4rem;
+            box-shadow: 8px 8px 0 #000;
+            display: flex; align-items: center; gap: 14px;
+            transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease, filter .2s ease;
+        }
+        .social-btn:hover { transform: translate(-5px,-5px) scale(1.04); box-shadow: 13px 13px 0 #000; filter: brightness(1.12) saturate(1.3); }
+        .inst { background: #E1306C; color: #fff; }
+        .twit { background: #000;    color: #fff; }
+        .wapp { background: #25D366; color: #fff; }
+
+        /* ── ADSENSE ZONES ── */
+        .adsense-zone { max-width: 1500px; margin: 0 auto 40px; padding: 0 40px; }
+        .adsense-banner {
+            width: 100%; min-height: 90px;
+            background: repeating-linear-gradient(45deg, rgba(0,0,0,.03), rgba(0,0,0,.03) 10px, transparent 10px, transparent 20px);
+            border: 2px dashed rgba(0,0,0,.15); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(0,0,0,.25); font-size: .8rem; font-weight: 900;
+            text-transform: uppercase; letter-spacing: .05em;
+        }
+        body.dark-mode .adsense-banner {
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,.03), rgba(255,255,255,.03) 10px, transparent 10px, transparent 20px);
+            border-color: rgba(255,255,255,.12); color: rgba(255,255,255,.2);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center; padding: 100px 20px;
+            font-weight: 900; font-size: 1.2rem;
+            opacity: .4; transition: opacity .3s;
+        }
+        footer:hover { opacity: .8; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .container { max-width: 95%; }
+            :root { --card-width: 320px; }
+        }
+        @media (max-width: 768px) {
+            nav { height: 70px; }
+            .nav-logo { height: 54px; }
+            .section-title { font-size: 2rem; }
+            .scroll-gradient-overlay,
+            .floating-arrow { display: none; }
+            :root { --card-width: 280px; --card-img-height: 180px; }
+            .adsense-zone { padding: 0 16px; }
+            .podcast-box { padding: 44px 20px; font-size: 1.2rem; }
+            .social-btn { font-size: 1rem; padding: 14px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+    <a href="/" style="text-decoration:none;">
+        <img src="logo-valentin.png" alt="VALENTIN V." class="nav-logo">
+    </a>
+    <button class="dark-btn" id="dark-toggle">Mode sombre</button>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="top-section">
+    <div class="carousel-wrapper">
+        <div class="carousel-container" id="carousel-track">
+
+            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=80&w=2000');">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <img src="logo-valentin.png" alt="VALENTIN V." class="hero-logo"><br>
+                    <p style="font-weight:900;text-transform:uppercase;background:var(--logo-yellow);color:#000;padding:8px 30px;display:inline-block;border:4px solid #000;font-size:1.2rem;">L'information a son importance</p>
+                </div>
+            </div>
+
+            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1504711432869-efd597cdd04d?auto=format&fit=crop&q=80&w=2000');">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <h2 style="font-size:5rem;text-transform:uppercase;margin:0;-webkit-text-stroke:2px black;">Reportages</h2>
+                    <p style="font-weight:900;font-size:2rem;">Au cœur de l'actualité numérique</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="carousel-dots" id="carousel-dots"></div>
+    </div>
+</div>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee-wrapper">
+    <div class="pink-marquee">
+        <div class="marquee-track" id="marquee-content"></div>
+    </div>
+</div>
+
+<!-- ══ ADSENSE HAUT ══ -->
+<div class="adsense-zone">
+    <div class="adsense-banner">
+        <!-- Coller ici votre bloc Google AdSense -->
+        Espace publicitaire — Google AdSense
+    </div>
+</div>
+
+<!-- ══ ARTICLES ══ -->
+<div class="container">
+    <h2 class="section-title section-title--articles">Derniers articles</h2>
+    <div class="articles-relative-wrapper">
+        <div class="grid-row" id="articles-grid"></div>
+        <div class="scroll-gradient-overlay"></div>
+        <div class="floating-arrow hidden" id="scroll-arrow" onclick="scrollArticles()">→</div>
+    </div>
+</div>
+
+<!-- ══ ADSENSE MILIEU ══ -->
+<div class="adsense-zone">
+    <div class="adsense-banner">
+        <!-- Coller ici votre bloc Google AdSense -->
+        Espace publicitaire — Google AdSense
+    </div>
+</div>
+
+<!-- ══ PODCASTS ══ -->
+<div class="container">
+    <h2 class="section-title section-title--podcasts">Podcasts</h2>
+    <div class="podcast-box">🎙️ En cours de développement</div>
+</div>
+
+<!-- ══ SUIVEZ-MOI ══ -->
+<div class="container">
+    <h2 class="section-title section-title--social">Suivez-moi</h2>
+    <div class="social-container">
+        <a href="https://www.instagram.com/verschval/" target="_blank" rel="noopener" class="social-btn inst">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            Instagram
+        </a>
+        <a href="https://x.com/verschval" target="_blank" rel="noopener" class="social-btn twit">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            X (Twitter)
+        </a>
+        <a href="https://whatsapp.com/channel/0029Vb80vABAInPkoKJnlO0m" target="_blank" rel="noopener" class="social-btn wapp">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Chaîne WhatsApp
+        </a>
+    </div>
+</div>
+
+<!-- ══ ADSENSE BAS ══ -->
+<div class="adsense-zone">
+    <div class="adsense-banner">
+        <!-- Coller ici votre bloc Google AdSense -->
+        Espace publicitaire — Google AdSense
+    </div>
+</div>
+
+<footer>© 2026 VALENTIN V. MÉDIA</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    /* ─────────────────────────────────────────
+       DARK MODE
+    ───────────────────────────────────────── */
+    const darkBtn = document.getElementById('dark-toggle');
+    darkBtn.addEventListener('click', function () {
+        document.body.classList.toggle('dark-mode');
+        darkBtn.textContent = document.body.classList.contains('dark-mode')
+            ? 'Mode clair'
+            : 'Mode sombre';
+    });
+
+    /* ─────────────────────────────────────────
+       CAROUSEL
+    ───────────────────────────────────────── */
+    const carouselTrack = document.getElementById('carousel-track');
+    const dotsContainer = document.getElementById('carousel-dots');
+    const slides        = carouselTrack.querySelectorAll('.slide');
+    const SLIDE_DURATION = 5000;
+    let currentSlide    = 0;
+    let autoplayTimer   = null;
+
+    slides.forEach(function (_, i) {
+        var dot  = document.createElement('div');
+        var fill = document.createElement('div');
+        dot.classList.add('dot');
+        fill.classList.add('progress-fill');
+        dot.appendChild(fill);
+        dot.addEventListener('click', function () { goToSlide(i); });
+        dotsContainer.appendChild(dot);
+    });
+
+    function updateDots() {
+        dotsContainer.querySelectorAll('.dot').forEach(function (d) {
+            d.classList.remove('active');
+            var f = d.querySelector('.progress-fill');
+            f.style.animation = 'none';
+            void f.offsetHeight;
+            f.style.animation = '';
+        });
+        dotsContainer.children[currentSlide].classList.add('active');
+    }
+
+    function goToSlide(index) {
+        currentSlide = index;
+        carouselTrack.style.transform = 'translateX(-' + (index * 100) + '%)';
+        updateDots();
+        resetAutoplay();
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        carouselTrack.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+        updateDots();
+    }
+
+    function resetAutoplay() {
+        clearInterval(autoplayTimer);
+        autoplayTimer = setInterval(nextSlide, SLIDE_DURATION);
+    }
+
+    updateDots();
+    resetAutoplay();
+
+    /* ─────────────────────────────────────────
+       MARQUEE
+    ───────────────────────────────────────── */
+    var marqueeTrack = document.getElementById('marquee-content');
+    var marqueeItems = [
+        "L'information est fiable",
+        "Bienvenue sur le site",
+        "Valentin V. Média",
+        "Actualités 24/7"
+    ];
+    var marqueeHTML = marqueeItems
+        .map(function (t) { return '<div class="marquee-item"><span>' + t + '</span> • </div>'; })
+        .join('');
+    marqueeTrack.innerHTML = marqueeHTML + marqueeHTML;
+
+    /* ─────────────────────────────────────────
+       SCROLL ARTICLES + FLÈCHE
+    ───────────────────────────────────────── */
+    var arrow = document.getElementById('scroll-arrow');
+
+    function checkArrow() {
+        var grid = document.getElementById('articles-grid');
+        if (!grid || !arrow) return;
+        var canScroll = grid.scrollWidth > grid.clientWidth + 10;
+        var atEnd     = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 10;
+        arrow.classList.toggle('hidden', !canScroll || atEnd);
+    }
+
+    window.scrollArticles = function () {
+        var grid = document.getElementById('articles-grid');
+        if (grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 10) {
+            grid.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            grid.scrollBy({ left: 440, behavior: 'smooth' });
+        }
+        setTimeout(checkArrow, 600);
+    };
+
+    /* ─────────────────────────────────────────
+       HELPERS
+    ───────────────────────────────────────── */
+    var FALLBACK_IMG = 'https://images.unsplash.com/photo-1585829365294-bb7c63b3ecda?auto=format&fit=crop&q=80&w=800';
+
+    function escapeHTML(str) {
+        return String(str)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function renderSkeletons(n) {
+        var grid = document.getElementById('articles-grid');
+        var html = '';
+        for (var i = 0; i < n; i++) {
+            html += '<div class="skeleton">'
+                  +   '<div class="skeleton-img"></div>'
+                  +   '<div class="skeleton-body">'
+                  +     '<div class="skeleton-line l1"></div>'
+                  +     '<div class="skeleton-line l2"></div>'
+                  +     '<div class="skeleton-line l3"></div>'
+                  +     '<div class="skeleton-btn"></div>'
+                  +   '</div>'
+                  + '</div>';
+        }
+        grid.innerHTML = html;
+    }
+
+    function renderArticles(articles) {
+        var grid = document.getElementById('articles-grid');
+        if (!articles || articles.length === 0) {
+            grid.innerHTML = '<p class="no-articles">Aucun article disponible.</p>';
+            if (arrow) arrow.classList.add('hidden');
+            return;
+        }
+        grid.innerHTML = articles.map(function (a) {
+            var img   = (a.imageUrl && a.imageUrl.trim()) ? a.imageUrl : FALLBACK_IMG;
+            var title = a.title ? escapeHTML(a.title) : 'Sans titre';
+            var href  = (a.slug && a.slug.current) ? 'article.html?s=' + encodeURIComponent(a.slug.current) : '#';
+            return '<div class="card">'
+                 +   '<div class="card-img" style="background-image:url(\'' + img + '\')"></div>'
+                 +   '<div class="card-body">'
+                 +     '<h3>' + title + '</h3>'
+                 +     '<a href="' + href + '" class="btn-read">Lire l\'article</a>'
+                 +   '</div>'
+                 + '</div>';
+        }).join('');
+
+        // Écouter le scroll et vérifier la flèche
+        grid.addEventListener('scroll', checkArrow);
+        setTimeout(checkArrow, 100);
+    }
+
+    function renderError() {
+        var grid = document.getElementById('articles-grid');
+        grid.innerHTML = '<p class="no-articles">Impossible de charger les articles.</p>';
+    }
+
+    /* ─────────────────────────────────────────
+       SANITY FETCH
+    ───────────────────────────────────────── */
+    var PROJECT_ID = 'jf7j0hvz';
+    var QUERY = encodeURIComponent(
+        '*[_type == "post"] | order(publishedAt desc)[0...6]{'
+      + '  title,'
+      + '  slug,'
+      + '  "imageUrl": mainImage.asset->url'
+      + '}'
+    );
+    var API_URL = 'https://' + PROJECT_ID + '.api.sanity.io/v2021-10-21/data/query/production?query=' + QUERY;
+
+    renderSkeletons(4);
+
+    fetch(API_URL)
+        .then(function (res) { return res.json(); })
+        .then(function (data) { renderArticles(data.result); })
+        .catch(function (err) { console.error('Sanity fetch error:', err); renderError(); });
+
+}());
+</script>
+</body>
+</html>
