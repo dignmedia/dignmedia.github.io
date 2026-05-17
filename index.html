@@ -300,8 +300,8 @@
             :root {
                 --card-img-height: 190px;
                 --border-black: 3px solid #000;
-                /* Carte = largeur écran - flèches (2×44px) - gaps (2×8px) - padding container (2×0) */
-                --card-width: calc(100vw - 120px);
+                /* Carte = largeur écran - flèches (2×40px) - gaps (2×6px) - marges (2×8px) */
+                --card-width: calc(100vw - 108px);
             }
 
             nav { height: 60px; padding: 0 16px; }
@@ -333,7 +333,7 @@
             /* Scroll snap pour un défilement carte par carte */
             .grid-row {
                 gap: 12px;
-                padding: 10px 2px 20px;
+                padding: 10px 10px 20px;
                 scroll-snap-type: x mandatory;
                 -webkit-scroll-snap-type: x mandatory;
             }
