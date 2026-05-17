@@ -117,10 +117,37 @@
 
         .article-body p { font-size: 1.35rem; margin-bottom: 2.5rem; }
 
-        /* Italique et gras dans le corps */
+        /* Italique et gras */
         .article-body em { font-style: italic; }
         .article-body strong { font-weight: 900; color: var(--logo-orange); }
         body.dark-mode .article-body strong { color: var(--logo-yellow); }
+
+        /* ── LIENS HYPERTEXTE ── */
+        .article-body a {
+            color: var(--logo-pink);
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 4px;
+            text-decoration-color: var(--logo-pink);
+            transition: color .2s ease, text-decoration-color .2s ease, background .2s ease;
+            border-radius: 4px;
+            padding: 0 2px;
+        }
+        .article-body a:hover {
+            color: #fff;
+            background: var(--logo-pink);
+            text-decoration-color: transparent;
+        }
+        body.dark-mode .article-body a {
+            color: var(--logo-cyan);
+            text-decoration-color: var(--logo-cyan);
+        }
+        body.dark-mode .article-body a:hover {
+            color: #000;
+            background: var(--logo-cyan);
+            text-decoration-color: transparent;
+        }
 
         .article-body p:first-of-type::first-letter {
             float: left; font-size: 6.5rem; line-height: 0.7; font-weight: 900;
@@ -372,18 +399,35 @@
         });
     }
 
-    // ── PORTABLE TEXT → HTML (avec marks : em, strong) ──
-    function renderSpan(span) {
+    // ── PORTABLE TEXT → HTML ──
+    // markDefs contient les objets link { _key, _type, href }
+    function renderSpan(span, markDefs) {
         let text = span.text || '';
         const marks = span.marks || [];
+
+        // Appliquer d'abord les styles inline
         if (marks.includes('strong')) text = `<strong>${text}</strong>`;
         if (marks.includes('em'))     text = `<em>${text}</em>`;
+
+        // Chercher un mark qui est une clé de lien (pas un style, mais une ref vers markDefs)
+        for (const mark of marks) {
+            if (mark === 'strong' || mark === 'em') continue;
+            // C'est une clé → chercher la def correspondante
+            const def = (markDefs || []).find(d => d._key === mark);
+            if (def && def._type === 'link' && def.href) {
+                const href = def.href;
+                // Ouvrir dans un nouvel onglet si lien externe
+                const isExternal = /^https?:\/\//.test(href);
+                const target = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+                text = `<a href="${href}"${target}>${text}</a>`;
+            }
+        }
+
         return text;
     }
 
-    function renderBlock(block, isFirst) {
+    function renderBlock(block) {
         if (block._type === 'image') {
-            // Image Sanity
             const url = block.asset && block.asset._ref
                 ? `https://cdn.sanity.io/images/jf7j0hvz/production/${block.asset._ref.replace('image-', '').replace(/-(\w+)$/, '.$1')}`
                 : null;
@@ -397,7 +441,8 @@
 
         if (block._type !== 'block') return '';
 
-        const html = (block.children || []).map(renderSpan).join('');
+        const markDefs = block.markDefs || [];
+        const html = (block.children || []).map(span => renderSpan(span, markDefs)).join('');
         if (!html.trim()) return '';
 
         if (block.style === 'blockquote') return `<blockquote>"${html}"</blockquote>`;
@@ -440,30 +485,24 @@
                 const a = data.result;
                 if (!a) return;
 
-                // Titre
                 document.getElementById('artTitle').innerText = a.title || '';
                 document.title = (a.title || 'Article') + ' — VALENTIN V.';
 
-                // Image hero
                 if (a.imageUrl) {
                     document.getElementById('heroBg').style.backgroundImage = `url('${a.imageUrl}')`;
                 }
 
-                // Catégories
                 const sticker = document.getElementById('artCategory');
                 sticker.innerText = (a.categories && a.categories.length > 0)
                     ? a.categories.join(' · ')
                     : 'Reportage';
 
-                // Auteur
                 document.getElementById('artAuthor').innerText = '✍️ Par ' + (a.author || 'Valentin V.');
 
-                // Date
                 if (a.publishedAt) {
                     document.getElementById('artDate').innerText = '📅 ' + new Date(a.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
                 }
 
-                // Corps de l'article
                 if (a.body) {
                     let wordCount = 0;
                     a.body.forEach(block => {
@@ -475,14 +514,11 @@
 
                     const blocks = a.body;
                     const mid = Math.floor(blocks.length / 2);
-                    let htmlParts = blocks.map((block, i) => renderBlock(block, i === 0));
-
-                    // Insérer la pub au milieu
+                    let htmlParts = blocks.map(block => renderBlock(block));
                     htmlParts.splice(mid, 0, adMilieu);
 
                     document.getElementById('artContent').innerHTML = htmlParts.join('');
 
-                    // Reinitialiser AdSense sur les nouvelles ins (ins ajoutées dynamiquement)
                     try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
 
                     const minutes = Math.max(1, Math.round(wordCount / 200));
@@ -496,13 +532,12 @@
                 document.getElementById('artTitle').innerText = 'Erreur de chargement';
             });
     } else {
-        // Pas de slug — affichage par défaut (preview)
         document.getElementById('artCategory').innerText = 'Reportage';
         document.getElementById('artTitle').innerText = "L'information n'a jamais été aussi brute.";
         document.getElementById('artContent').innerHTML = `
             <p>Bienvenue dans cet article de fond. L'objectif ici est de vous proposer une <strong>immersion totale</strong>.</p>
             <blockquote>"Le journalisme moderne doit être aussi impactant visuellement que par ses mots."</blockquote>
-            <p>Lorsque vous intégrerez Sanity, vous pourrez faire varier la couleur du sticker de catégorie. Les mots en <em>italique</em> et en <strong>gras</strong> seront rendus automatiquement.</p>
+            <p>Lorsque vous intégrerez Sanity, vous pourrez faire varier la couleur du sticker de catégorie. Les mots en <em>italique</em>, en <strong>gras</strong> et les <a href="https://valentinvmedia.github.io" target="_blank" rel="noopener">liens hypertexte</a> seront rendus automatiquement.</p>
             ${adMilieu}
             <p>Les images issues de Sanity s'afficheront également dans le corps de l'article avec leur légende.</p>
         `;
