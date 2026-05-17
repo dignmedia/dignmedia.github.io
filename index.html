@@ -325,25 +325,24 @@
             .section-title--podcasts { box-shadow: 5px 5px 0 var(--logo-cyan); }
             .section-title--social   { box-shadow: 5px 5px 0 var(--logo-purple); }
 
-            /* Flèches mobiles */
-            .articles-relative-wrapper { gap: 8px; }
-            .nav-arrow { width: 40px; height: 40px; font-size: 1.1rem; box-shadow: 3px 3px 0 #000; flex-shrink: 0; }
-            body.dark-mode .nav-arrow { box-shadow: 3px 3px 0 #fff; }
+            /* Pas de flèches sur mobile — swipe tactile */
+            .nav-arrow { display: none !important; }
+            .articles-relative-wrapper { gap: 0; }
 
-            /* Grille : la carte prend toute la largeur disponible entre les deux flèches */
+            /* Grille scrollable pleine largeur */
             .grid-row {
-                gap: 12px;
-                padding: 10px 4px 18px;
+                gap: 16px;
+                padding: 10px 10px 20px 0;
                 scroll-snap-type: x mandatory;
                 -webkit-scroll-snap-type: x mandatory;
                 overflow-x: auto;
             }
-            /* Carte = 100vw - 2 flèches (40px) - 2 gaps (8px) - 2 paddings container (12px) - marges grille (4px) */
+            /* Carte = largeur écran - padding left container (12px) - espace ombre droite (20px) */
             .card, .skeleton {
-                width: calc(100vw - 136px);
-                min-width: calc(100vw - 136px);
-                max-width: calc(100vw - 136px);
-                flex: 0 0 calc(100vw - 136px);
+                width: calc(100vw - 44px);
+                min-width: calc(100vw - 44px);
+                max-width: calc(100vw - 44px);
+                flex: 0 0 calc(100vw - 44px);
                 scroll-snap-align: start;
                 border-radius: 18px;
                 box-shadow: 6px 6px 0 #000;
