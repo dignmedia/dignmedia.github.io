@@ -87,11 +87,8 @@
             white-space: nowrap;
         }
         .back-btn:hover {
-            color: #fff;
-            background: var(--logo-orange);
-            border-color: var(--logo-orange);
-            box-shadow: 0 6px 24px rgba(255,107,0,0.55);
-            transform: translateY(-2px) scale(1.04);
+            color: #fff; background: var(--logo-orange); border-color: var(--logo-orange);
+            box-shadow: 0 6px 24px rgba(255,107,0,0.55); transform: translateY(-2px) scale(1.04);
         }
         body.dark-mode .back-btn { color: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.25); }
         body.dark-mode .back-btn:hover { color: #fff; background: var(--logo-orange); border-color: var(--logo-orange); box-shadow: 0 6px 24px rgba(255,107,0,0.5); }
@@ -139,7 +136,6 @@
             transition: transform .2s var(--ease-spring), box-shadow .2s, background .2s, color .2s;
         }
         .category-sticker:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 8px 30px rgba(255,26,140,0.5); background: var(--logo-pink); color: #fff; }
-        .category-sticker::before { content: none; display: none; }
 
         .article-title {
             font-size: clamp(2.2rem, 7vw, 5rem); font-weight: 900; line-height: 1;
@@ -147,6 +143,20 @@
             text-shadow: 0 2px 20px rgba(0,0,0,0.6), 0 8px 40px rgba(0,0,0,0.4);
             letter-spacing: -.01em;
         }
+
+        /* ── SKELETON HERO ── */
+        @keyframes shimmer { 0% { background-position: -800px 0; } 100% { background-position: 800px 0; } }
+        .hero-skeleton-pill {
+            height: 36px; width: 140px; border-radius: 50px; margin-bottom: 20px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.15) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.15) 75%);
+            background-size: 800px 100%; animation: shimmer 1.4s infinite linear;
+        }
+        .hero-skeleton-title {
+            height: 60px; width: 75%; border-radius: 12px; margin-bottom: 12px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.2) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.2) 75%);
+            background-size: 800px 100%; animation: shimmer 1.4s infinite linear;
+        }
+        .hero-skeleton-title.short { width: 50%; }
 
         /* ── CORPS ── */
         .article-container { max-width: 860px; margin: 60px auto; padding: 0 30px; }
@@ -166,24 +176,44 @@
         }
         .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        .article-body p { font-size: 1.25rem; margin-bottom: 2.2rem; line-height: 1.75; }
+        /* ── SKELETON BODY ── */
+        .skeleton-meta {
+            height: 70px; border-radius: 20px; margin-bottom: 50px;
+            background: linear-gradient(90deg, rgba(0,0,0,.06) 25%, rgba(0,0,0,.02) 50%, rgba(0,0,0,.06) 75%);
+            background-size: 800px 100%; animation: shimmer 1.4s infinite linear;
+        }
+        body.dark-mode .skeleton-meta { background: linear-gradient(90deg, rgba(255,255,255,.06) 25%, rgba(255,255,255,.02) 50%, rgba(255,255,255,.06) 75%); background-size: 800px 100%; }
+        .skeleton-line { border-radius: 8px; margin-bottom: 18px;
+            background: linear-gradient(90deg, rgba(0,0,0,.08) 25%, rgba(0,0,0,.03) 50%, rgba(0,0,0,.08) 75%);
+            background-size: 800px 100%; animation: shimmer 1.4s infinite linear;
+        }
+        body.dark-mode .skeleton-line { background: linear-gradient(90deg, rgba(255,255,255,.08) 25%, rgba(255,255,255,.03) 50%, rgba(255,255,255,.08) 75%); background-size: 800px 100%; }
+        .skeleton-line.h1  { height: 28px; width: 95%; }
+        .skeleton-line.h2  { height: 28px; width: 80%; }
+        .skeleton-line.h3  { height: 28px; width: 60%; margin-bottom: 40px; }
+        .skeleton-line.ht  { height: 36px; width: 50%; margin: 40px 0 16px; border-radius: 12px; }
 
+        /* ── ERREUR ── */
+        .error-box {
+            text-align: center; padding: 80px 20px;
+            font-weight: 900; font-size: 1.2rem; text-transform: uppercase;
+            color: var(--logo-pink); opacity: .7;
+        }
+
+        .article-body p { font-size: 1.25rem; margin-bottom: 2.2rem; line-height: 1.75; }
         .article-body p:first-of-type::first-letter {
             float: left; font-size: 6rem; line-height: 0.75; font-weight: 900;
             padding: 16px 16px 0 0; color: var(--logo-orange);
             text-shadow: 4px 4px 0 rgba(255,107,0,0.2);
         }
-
         .article-body h2 {
             font-size: 1.9rem; font-weight: 900; text-transform: uppercase;
             margin: 55px 0 18px; display: inline-block;
             background: rgba(0,0,0,0.88); color: #fff;
-            padding: 8px 22px; border-radius: 12px;
-            transform: rotate(-.5deg);
+            padding: 8px 22px; border-radius: 12px; transform: rotate(-.5deg);
             box-shadow: 6px 6px 0 var(--logo-cyan);
         }
         body.dark-mode .article-body h2 { background: rgba(255,255,255,0.9); color: #000; }
-
         .article-body h3 {
             font-size: 1.4rem; font-weight: 900; text-transform: uppercase;
             margin: 40px 0 12px; color: var(--logo-purple);
@@ -191,97 +221,45 @@
         body.dark-mode .article-body h3 { color: var(--logo-cyan); }
 
         /* ── BLOCKQUOTE ── */
-        .blockquote-wrapper {
-            margin: 72px 0; position: relative;
-        }
-
-        .blockquote-wrapper::before { content: none; }
-
+        .blockquote-wrapper { margin: 72px 0; position: relative; }
         blockquote {
-            margin: 0;
-            padding: 52px 52px 44px 52px;
-            position: relative; z-index: 1;
-            background: #fff;
-            border: 2px solid rgba(255,107,0,0.18);
-            border-radius: 28px;
-            box-shadow:
-                0 24px 80px rgba(0,0,0,0.07),
-                0 8px 24px rgba(255,107,0,0.08),
-                inset 0 1px 0 rgba(255,255,255,1);
+            margin: 0; padding: 52px 52px 44px 52px; position: relative; z-index: 1;
+            background: #fff; border: 2px solid rgba(255,107,0,0.18); border-radius: 28px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.07), 0 8px 24px rgba(255,107,0,0.08), inset 0 1px 0 rgba(255,255,255,1);
             font-size: 1.45rem; font-weight: 800; line-height: 1.65;
             font-style: normal; color: #161616; overflow: visible;
             transition: transform .3s var(--ease-spring), box-shadow .3s ease, border-color .3s ease;
         }
-
-        /* Guillemet décorative — solide, lisible */
         blockquote::before {
-            content: '\201C';
-            position: absolute;
-            top: 10px; left: 36px;
-            font-size: 7rem; line-height: 1;
-            font-weight: 900;
-            color: var(--logo-orange);
-            opacity: 0.22;
-            pointer-events: none;
-            user-select: none;
+            content: '\201C'; position: absolute; top: 10px; left: 36px;
+            font-size: 7rem; line-height: 1; font-weight: 900;
+            color: var(--logo-orange); opacity: 0.22; pointer-events: none; user-select: none;
             font-family: Georgia, 'Times New Roman', serif;
         }
-
-        blockquote::after { content: none; }
-
         .blockquote-wrapper:hover blockquote {
-            transform: translateY(-4px);
-            border-color: rgba(255,107,0,0.35);
-            box-shadow:
-                0 32px 100px rgba(0,0,0,0.1),
-                0 12px 36px rgba(255,107,0,0.14);
+            transform: translateY(-4px); border-color: rgba(255,107,0,0.35);
+            box-shadow: 0 32px 100px rgba(0,0,0,0.1), 0 12px 36px rgba(255,107,0,0.14);
         }
-
-        .bq-open { display: none; }
-        .bq-close { display: none; }
-
-        .bq-text {
-            position: relative; z-index: 1;
-            display: block;
-        }
-
-        /* Source / auteur */
+        .bq-text { position: relative; z-index: 1; display: block; }
         .bq-source {
-            display: block;
-            margin-top: 18px;
-            font-size: .82rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .12em;
-            color: var(--logo-orange);
-            opacity: 0.75;
+            display: block; margin-top: 18px; font-size: .82rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: .12em;
+            color: var(--logo-orange); opacity: 0.75;
         }
-
         body.dark-mode blockquote {
-            background: rgba(22, 16, 8, 0.95);
-            border-color: rgba(255,107,0,0.22);
-            box-shadow:
-                0 24px 80px rgba(0,0,0,0.5),
-                0 8px 24px rgba(255,107,0,0.08),
-                inset 0 1px 0 rgba(255,255,255,0.04);
+            background: rgba(22,16,8,0.95); border-color: rgba(255,107,0,0.22);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 8px 24px rgba(255,107,0,0.08), inset 0 1px 0 rgba(255,255,255,0.04);
             color: #f9f9ff;
         }
         body.dark-mode blockquote::before { opacity: 0.18; }
         body.dark-mode .bq-source { color: var(--logo-orange); opacity: 0.65; }
-        body.dark-mode .blockquote-wrapper:hover blockquote {
-            border-color: rgba(255,107,0,0.4);
-            box-shadow:
-                0 32px 100px rgba(0,0,0,0.65),
-                0 12px 36px rgba(255,107,0,0.15);
-        }
 
         /* ── SHARE BOX ── */
         .share-box {
             margin: 80px auto; padding: 50px 40px;
             background: rgba(255,255,255,0.65);
             border: 1.5px solid rgba(255,255,255,0.7); border-radius: 28px;
-            text-align: center;
-            backdrop-filter: saturate(180%) blur(20px);
+            text-align: center; backdrop-filter: saturate(180%) blur(20px);
             box-shadow: 0 16px 60px rgba(255,26,140,0.1), 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
             position: relative; overflow: hidden;
         }
@@ -301,15 +279,12 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
         .share-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: nowrap; max-width: 680px; margin: 0 auto; }
-
         .share-btn {
             font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 1rem;
             text-transform: uppercase; letter-spacing: .04em;
-            padding: 14px 20px; border-radius: 50px;
-            flex: 1;
+            padding: 14px 20px; border-radius: 50px; flex: 1;
             border: 1.5px solid rgba(255,255,255,0.35);
-            text-decoration: none; cursor: pointer;
-            backdrop-filter: blur(8px);
+            text-decoration: none; cursor: pointer; backdrop-filter: blur(8px);
             box-shadow: 0 6px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.25);
             display: inline-flex; align-items: center; justify-content: center; gap: 10px;
             white-space: nowrap; position: relative; overflow: hidden;
@@ -321,67 +296,19 @@
         .s-x:hover  { box-shadow: 0 12px 36px rgba(0,0,0,0.4); }
         .s-fb { background: rgba(24,119,242,0.92); color: #fff; }
         .s-fb:hover { box-shadow: 0 12px 36px rgba(24,119,242,0.5); }
-        .s-link {
-            background: linear-gradient(135deg, var(--logo-orange), var(--logo-pink));
-            color: #fff; border-color: rgba(255,255,255,0.35);
-        }
+        .s-link { background: linear-gradient(135deg, var(--logo-orange), var(--logo-pink)); color: #fff; border-color: rgba(255,255,255,0.35); }
         .s-link:hover { box-shadow: 0 12px 36px rgba(255,26,140,0.45); }
 
-        /* ── ANIMATION COPIER ── */
-        @keyframes burst {
-            0%   { opacity: .7; transform: scale(0); }
-            70%  { opacity: .4; transform: scale(1.8); }
-            100% { opacity: 0; transform: scale(2.4); }
-        }
-
-        .copy-burst {
-            position: absolute; inset: 0; border-radius: 50px;
-            background: rgba(255,255,255,0.4);
-            pointer-events: none; transform: scale(0); opacity: 0;
-        }
+        @keyframes burst { 0% { opacity:.7; transform:scale(0); } 70% { opacity:.4; transform:scale(1.8); } 100% { opacity:0; transform:scale(2.4); } }
+        .copy-burst { position:absolute; inset:0; border-radius:50px; background:rgba(255,255,255,0.4); pointer-events:none; transform:scale(0); opacity:0; }
         .copy-burst.animate { animation: burst .5s var(--ease-out) forwards; }
-
-        /* Le texte est en absolu pour ne jamais faire changer la largeur du bouton */
-        #copyText {
-            pointer-events: none;
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            letter-spacing: .04em;
-            white-space: nowrap;
-            transition: opacity .22s ease, transform .22s var(--ease-out);
-        }
-        #copyText.hide {
-            opacity: 0;
-            transform: translateY(-6px);
-        }
-
-        .s-link.copied {
-            background: linear-gradient(135deg, #0db860, #00cfaa);
-            box-shadow: 0 12px 36px rgba(13,184,96,0.45);
-        }
-
-        @keyframes btn-pop {
-            0%   { transform: translateY(-3px) scale(1.04); }
-            40%  { transform: scale(0.95); }
-            70%  { transform: scale(1.05); }
-            100% { transform: translateY(-3px) scale(1.04); }
-        }
-        .s-link.pop { animation: btn-pop .35s var(--ease-spring) forwards; }
+        #copyText { pointer-events:none; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:900; letter-spacing:.04em; white-space:nowrap; transition:opacity .22s ease, transform .22s var(--ease-out); }
+        #copyText.hide { opacity:0; transform:translateY(-6px); }
+        .s-link.copied { background: linear-gradient(135deg,#0db860,#00cfaa); box-shadow:0 12px 36px rgba(13,184,96,0.45); }
 
         /* ── SCROLL REVEAL ── */
-        .reveal {
-            opacity: 0;
-            transform: translateY(32px);
-            transition: opacity .65s var(--ease-out), transform .65s var(--ease-out);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { opacity:0; transform:translateY(32px); transition:opacity .65s var(--ease-out), transform .65s var(--ease-out); }
+        .reveal.visible { opacity:1; transform:translateY(0); }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
@@ -407,7 +334,7 @@
             blockquote { font-size: 1.18rem; padding: 40px 32px 32px 44px; border-radius: 20px; }
             .share-box { padding: 32px 20px; border-radius: 20px; margin: 50px auto; }
             .share-box h2 { font-size: 1.3rem; margin-bottom: 20px; }
-            .share-grid { flex-direction: column; gap: 10px; align-items: stretch; flex-wrap: wrap; max-width: 380px; margin: 0 auto; }
+            .share-grid { flex-direction: column; gap: 10px; align-items: stretch; max-width: 380px; margin: 0 auto; }
             .share-btn { flex: unset; width: 100%; padding: 14px 20px; font-size: .92rem; }
         }
         @media (max-width: 480px) {
@@ -419,6 +346,7 @@
             .article-hero { height: 46vh; min-height: 250px; padding-bottom: 24px; }
             .hero-content { width: 94%; }
             .article-title { font-size: clamp(1.35rem, 6.5vw, 2.1rem); letter-spacing: -.02em; line-height: 1.05; }
+            .hero-skeleton-title { height: 40px; }
             .category-sticker { font-size: .7rem; padding: 5px 13px; margin-bottom: 10px; }
             .article-container { padding: 0 14px; margin: 24px auto; }
             .meta-info { padding: 12px 14px; gap: 8px; font-size: .75rem; border-radius: 14px; margin-bottom: 28px; flex-direction: column; }
@@ -432,8 +360,9 @@
             .bq-source { font-size: .74rem; }
             .share-box { margin: 36px auto; padding: 24px 14px; border-radius: 16px; }
             .share-box h2 { font-size: 1.1rem; margin-bottom: 16px; }
-            .share-grid { flex-direction: column; gap: 10px; align-items: stretch; flex-wrap: wrap; max-width: 100%; }
-            .share-btn { flex: unset; padding: 14px 20px; font-size: .84rem; justify-content: center; border-radius: 50px; width: 100%; }        }
+            .share-grid { flex-direction: column; gap: 10px; align-items: stretch; max-width: 100%; }
+            .share-btn { flex: unset; padding: 14px 20px; font-size: .84rem; justify-content: center; border-radius: 50px; width: 100%; }
+        }
         @media (max-width: 360px) {
             .article-title { font-size: clamp(1.15rem, 7vw, 1.6rem); }
             .article-body p { font-size: .92rem; }
@@ -450,7 +379,7 @@
 
 <nav>
     <div class="nav-left">
-        <a href="https://dignmedia.github.io" class="back-btn"><span class="back-arrow">←</span><span>Accueil</span></a>
+        <a href="https://dignmedia.github.io" class="back-btn"><span>←</span><span>Accueil</span></a>
     </div>
     <div class="nav-center" style="display:flex;justify-content:center;align-items:center;">
         <a href="https://dignmedia.github.io"><img src="logo-valentin.png" alt="VALENTIN V." class="nav-logo"></a>
@@ -460,75 +389,43 @@
     </div>
 </nav>
 
-<header class="article-hero">
+<header class="article-hero" id="articleHero">
     <div class="hero-bg" id="heroBg"></div>
     <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <div class="category-sticker" id="artCategory">Design · Web</div>
-        <h1 class="article-title" id="artTitle">Quand l'interface raconte l'histoire</h1>
+    <div class="hero-content" id="heroContent">
+        <!-- Skeleton pendant le chargement -->
+        <div class="hero-skeleton-pill" id="skPill"></div>
+        <div class="hero-skeleton-title" id="skTitle1"></div>
+        <div class="hero-skeleton-title short" id="skTitle2"></div>
     </div>
 </header>
 
 <main class="article-container">
-    <div class="meta-info reveal">
-        <span id="artAuthor">✍️ Par Valentin V.</span>
-        <span id="artDate">📅 23 mai 2026</span>
-        <span id="artReadTime">⏱️ 4 min de lecture</span>
+    <div id="metaWrapper">
+        <div class="skeleton-meta"></div>
     </div>
-
-    <section class="article-body reveal" id="artContent">
-        <p>
-            Chaque interface que nous créons raconte une histoire, même lorsqu'aucun mot n'apparaît à l'écran.
-            Les couleurs, les espacements, les micro-interactions et la façon dont un utilisateur navigue composent une narration silencieuse.
-            Sur le web, le design n'est pas seulement une question d'esthétique : c'est une manière de guider le regard et de transmettre une intention.
-        </p>
-
-        <p>
-            En tant que créateur ou créatrice, tu façonnes la première impression que l'on se fait d'une marque, d'un média ou d'un projet.
-            Un bouton qui réagit légèrement au survol, une citation mise en avant avec douceur ou une barre de progression discrète
-            peuvent transformer une simple page en véritable expérience.
-        </p>
-
-        <div class="blockquote-wrapper reveal">
-            <blockquote>
-                <span class="bq-text">« Le détail n'est pas un détail, il fait le design. »</span>
-                <span class="bq-source">— Inspiré de Charles Eames</span>
-            </blockquote>
-        </div>
-
-        <h2>Donner du rythme à la lecture</h2>
-        <p>
-            Un bon article en ligne joue avec les respirations visuelles.
-            Les intertitres, les citations, les espacements généreux et les images pleine largeur permettent au lecteur de ne jamais se sentir noyé.
-            Quand la mise en page est fluide, l'utilisateur oublie l'interface et se concentre entièrement sur le contenu.
-        </p>
-
-        <h3>Les micro-interactions comme signature</h3>
-        <p>
-            Les micro-interactions — comme l'animation d'un bouton « Copié ! » ou le léger mouvement d'un lien au survol —
-            sont la signature de ton univers visuel.
-            Elles donnent de la personnalité à ton média et créent une sensation de finesse et de maîtrise technique.
-        </p>
-
-        <p>
-            Ce gabarit d'article est conçu pour te permettre de tester rapidement ces sensations : changer une image, un titre,
-            une citation, et voir comment l'ensemble se comporte. Une base parfaite pour faire évoluer dign.média vers un magazine
-            en ligne à la fois élégant, lisible et ultra moderne.
-        </p>
+    <section class="article-body" id="artContent">
+        <div class="skeleton-line h1"></div>
+        <div class="skeleton-line h2"></div>
+        <div class="skeleton-line h3"></div>
+        <div class="skeleton-line ht"></div>
+        <div class="skeleton-line h1"></div>
+        <div class="skeleton-line h2"></div>
+        <div class="skeleton-line h3"></div>
     </section>
 
-    <section class="share-box reveal">
+    <section class="share-box reveal" id="shareBox" style="display:none;">
         <h2>Partager l'article</h2>
         <div class="share-grid">
             <a href="#" id="shareX" target="_blank" rel="noopener noreferrer" class="share-btn s-x">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 X (Twitter)
             </a>
             <a href="#" id="shareFB" target="_blank" rel="noopener noreferrer" class="share-btn s-fb">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 Facebook
             </a>
-            <button onclick="copyLink()" id="copyBtn" class="share-btn s-link" aria-label="Copier le lien de l'article">
+            <button onclick="copyLink()" id="copyBtn" class="share-btn s-link" aria-label="Copier le lien">
                 <div class="copy-burst" id="copyBurst"></div>
                 <span id="copyText">Copier le lien</span>
             </button>
@@ -536,142 +433,251 @@
     </section>
 </main>
 
-<script>
-    const darkBtn = document.getElementById('dark-toggle');
-    darkBtn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        darkBtn.textContent = document.body.classList.contains('dark-mode') ? 'Mode Clair' : 'Mode Sombre';
-    });
-
-    window.addEventListener('scroll', () => {
-        const s = document.body.scrollTop || document.documentElement.scrollTop;
-        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        document.getElementById('readingProgress').style.width = (s / h * 100) + '%';
-    });
-
-    function setupSharing() {
-        const url   = encodeURIComponent(window.location.href);
-        const title = encodeURIComponent(document.getElementById('artTitle').innerText);
-        document.getElementById('shareX').href  = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
-        document.getElementById('shareFB').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-    }
-
-    let copyTimeout = null;
-    function copyLink() {
-        const btn      = document.getElementById('copyBtn');
-        const burst    = document.getElementById('copyBurst');
-        const copyText = document.getElementById('copyText');
-        if (btn.classList.contains('copied')) return;
-
-        const doAnimate = () => {
-            // Burst
-            burst.classList.remove('animate');
-            void burst.offsetWidth;
-            burst.classList.add('animate');
-
-            // Slide texte vers le haut → swap → slide depuis le bas
-            copyText.classList.add('hide');
-
-            setTimeout(() => {
-                btn.classList.add('copied');
-                copyText.textContent = 'COPIÉ ! ✅';
-                copyText.style.transform = 'translateY(6px)';
-                copyText.style.opacity = '0';
-                // Force reflow puis slide in
-                void copyText.offsetWidth;
-                copyText.classList.remove('hide');
-                copyText.style.transform = '';
-                copyText.style.opacity = '';
-            }, 220);
-
-            btn.setAttribute('aria-label', 'Lien copié !');
-            clearTimeout(copyTimeout);
-            copyTimeout = setTimeout(() => {
-                copyText.classList.add('hide');
-                setTimeout(() => {
-                    btn.classList.remove('copied');
-                    copyText.textContent = 'Copier le lien';
-                    copyText.style.transform = 'translateY(6px)';
-                    copyText.style.opacity = '0';
-                    void copyText.offsetWidth;
-                    copyText.classList.remove('hide');
-                    copyText.style.transform = '';
-                    copyText.style.opacity = '';
-                    btn.setAttribute('aria-label', 'Copier le lien de l\'article');
-                }, 220);
-            }, 2500);
-        };
-
-        navigator.clipboard.writeText(window.location.href)
-            .then(doAnimate)
-            .catch(() => {
-                const ta = document.createElement('textarea');
-                ta.value = window.location.href;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                doAnimate();
-            });
-    }
-
-    // Scroll reveal avec IntersectionObserver (compatible tous navigateurs)
-    function initReveal() {
-        const els = document.querySelectorAll('.reveal');
-        if (!('IntersectionObserver' in window)) {
-            els.forEach(el => el.classList.add('visible'));
-            return;
-        }
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.12 });
-        els.forEach(el => observer.observe(el));
-    }
-
-    window.onload = () => { setupSharing(); initReveal(); };
-</script>
-
-<footer style="
-    margin-top: 0;
-    padding: 40px max(5%, env(safe-area-inset-left));
-    background: rgba(255,255,255,0.55);
-    border-top: 1.5px solid rgba(255,255,255,0.6);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    box-shadow: 0 -4px 30px rgba(0,0,0,0.05);
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    transition: background .5s, border-color .5s;
-">
+<footer id="pageFooter" style="display:none;
+    margin-top: 0; padding: 40px max(5%, env(safe-area-inset-left));
+    background: rgba(255,255,255,0.55); border-top: 1.5px solid rgba(255,255,255,0.6);
+    backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+    box-shadow: 0 -4px 30px rgba(0,0,0,0.05); text-align: center;
+    font-family: 'Poppins', sans-serif; transition: background .5s, border-color .5s;">
     <a href="https://dignmedia.github.io" style="text-decoration:none;">
-        <span id="footerBrand" style="
-            font-weight: 900; font-size: 1.3rem; letter-spacing: -.01em;
-            color: #111;
-            transition: color .5s;
-        ">dign.média</span>
+        <span id="footerBrand" style="font-weight:900;font-size:1.3rem;letter-spacing:-.01em;color:#111;transition:color .5s;">dign.média</span>
     </a>
-    <p style="margin: 10px 0 0; font-size: .78rem; font-weight: 600; color: rgba(0,0,0,0.38); letter-spacing: .04em; text-transform: uppercase;">
-        © 2026 dign.média — Tous droits réservés. Toute reproduction interdite sans autorisation.
+    <p style="margin:10px 0 0;font-size:.78rem;font-weight:600;color:rgba(0,0,0,0.38);letter-spacing:.04em;text-transform:uppercase;">
+        © 2026 dign.média — Tous droits réservés.
     </p>
 </footer>
 
 <style>
-body.dark-mode footer {
-    background: rgba(10,8,20,0.7) !important;
-    border-top-color: rgba(255,255,255,0.08) !important;
-}
-body.dark-mode footer p {
-    color: rgba(255,255,255,0.28) !important;
-}
-body.dark-mode #footerBrand {
-    color: #fff !important;
-}
+body.dark-mode footer { background: rgba(10,8,20,0.7) !important; border-top-color: rgba(255,255,255,0.08) !important; }
+body.dark-mode footer p { color: rgba(255,255,255,0.28) !important; }
+body.dark-mode #footerBrand { color: #fff !important; }
 </style>
 
+<script>
+(function () {
+    /* ── CONFIG SANITY (même projet que index.html) ── */
+    var PROJECT_ID = 'jf7j0hvz';
+    var DATASET    = 'production';
+    var API_VER    = 'v2021-10-21';
+
+    /* ── DARK MODE ── */
+    var darkBtn = document.getElementById('dark-toggle');
+    darkBtn.addEventListener('click', function () {
+        document.body.classList.toggle('dark-mode');
+        darkBtn.textContent = document.body.classList.contains('dark-mode') ? 'Mode Clair' : 'Mode Sombre';
+    });
+
+    /* ── BARRE DE LECTURE ── */
+    window.addEventListener('scroll', function () {
+        var s = document.body.scrollTop || document.documentElement.scrollTop;
+        var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        document.getElementById('readingProgress').style.width = (h > 0 ? (s / h * 100) : 0) + '%';
+    });
+
+    /* ── RÉCUPÉRER LE SLUG DANS L'URL ── */
+    var params = new URLSearchParams(window.location.search);
+    var slug   = params.get('s') || params.get('slug');
+
+    if (!slug) {
+        showError('Aucun article spécifié. <a href="https://dignmedia.github.io" style="color:var(--logo-orange)">Retour à l\'accueil</a>');
+        return;
+    }
+
+    /* ── QUERY GROQ ── */
+    // On récupère tous les champs utiles selon ton schéma Sanity
+    var query = encodeURIComponent(
+        '*[_type == "post" && slug.current == "' + slug + '"][0]{'
+      + '  title,'
+      + '  slug,'
+      + '  publishedAt,'
+      + '  "imageUrl": mainImage.asset->url,'
+      + '  "authorName": author->name,'
+      + '  "categoryTitle": categories[0]->title,'
+      + '  body'
+      + '}'
+    );
+
+    var API_URL = 'https://' + PROJECT_ID + '.api.sanity.io/' + API_VER + '/data/query/' + DATASET + '?query=' + query;
+
+    fetch(API_URL)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+            var article = data.result;
+            if (!article) {
+                showError('Article introuvable. <a href="https://dignmedia.github.io" style="color:var(--logo-orange)">Retour à l\'accueil</a>');
+                return;
+            }
+            renderArticle(article);
+        })
+        .catch(function (err) {
+            console.error('Sanity fetch error:', err);
+            showError('Impossible de charger l\'article.');
+        });
+
+    /* ── RENDU ── */
+    function renderArticle(a) {
+        // Titre de l'onglet
+        document.title = (a.title || 'Article') + ' — VALENTIN V.';
+
+        // Hero image
+        var heroBg = document.getElementById('heroBg');
+        if (a.imageUrl) {
+            heroBg.style.backgroundImage = "url('" + a.imageUrl + "')";
+        }
+
+        // Hero content (remplace les skeletons)
+        var heroContent = document.getElementById('heroContent');
+        var catLabel = a.categoryTitle || 'Article';
+        heroContent.innerHTML =
+            '<div class="category-sticker">' + escHTML(catLabel) + '</div>'
+          + '<h1 class="article-title">' + escHTML(a.title || 'Sans titre') + '</h1>';
+
+        // Meta
+        var metaWrapper = document.getElementById('metaWrapper');
+        var dateStr = formatDate(a.publishedAt);
+        var authorStr = a.authorName ? '✍️ Par ' + escHTML(a.authorName) : '✍️ Par Valentin V.';
+        var readTime = estimateReadTime(a.body);
+        metaWrapper.innerHTML =
+            '<div class="meta-info reveal">'
+          + '<span>' + authorStr + '</span>'
+          + (dateStr ? '<span>📅 ' + dateStr + '</span>' : '')
+          + '<span>⏱️ ' + readTime + ' min de lecture</span>'
+          + '</div>';
+
+        // Contenu de l'article
+        var artContent = document.getElementById('artContent');
+        artContent.innerHTML = renderBody(a.body);
+
+        // Share box + footer
+        document.getElementById('shareBox').style.display = '';
+        document.getElementById('pageFooter').style.display = '';
+
+        // Partage social
+        var url   = encodeURIComponent(window.location.href);
+        var title = encodeURIComponent(a.title || '');
+        document.getElementById('shareX').href  = 'https://twitter.com/intent/tweet?text=' + title + '&url=' + url;
+        document.getElementById('shareFB').href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+
+        // Scroll reveal
+        initReveal();
+    }
+
+    /* ── PORTABLE TEXT → HTML (champs body Sanity) ── */
+    function renderBody(blocks) {
+        if (!blocks || !Array.isArray(blocks)) return '<p>Contenu indisponible.</p>';
+        return blocks.map(function (block) {
+            if (block._type === 'block') {
+                var style = block.style || 'normal';
+                var inner = renderSpans(block.children || []);
+                if (style === 'h2') return '<h2>' + inner + '</h2>';
+                if (style === 'h3') return '<h3>' + inner + '</h3>';
+                if (style === 'blockquote') {
+                    return '<div class="blockquote-wrapper"><blockquote><span class="bq-text">' + inner + '</span></blockquote></div>';
+                }
+                return '<p>' + inner + '</p>';
+            }
+            // Images inline
+            if (block._type === 'image' && block.asset && block.asset.url) {
+                return '<img src="' + block.asset.url + '" style="width:100%;border-radius:18px;margin:32px 0;" alt="" loading="lazy">';
+            }
+            return '';
+        }).join('');
+    }
+
+    function renderSpans(spans) {
+        return spans.map(function (span) {
+            if (!span.text) return '';
+            var text = escHTML(span.text);
+            var marks = span.marks || [];
+            if (marks.indexOf('strong') !== -1) text = '<strong>' + text + '</strong>';
+            if (marks.indexOf('em') !== -1) text = '<em>' + text + '</em>';
+            if (marks.indexOf('underline') !== -1) text = '<u>' + text + '</u>';
+            return text;
+        }).join('');
+    }
+
+    /* ── HELPERS ── */
+    function escHTML(str) {
+        return String(str)
+            .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        try {
+            return new Date(dateStr).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+        } catch(e) { return ''; }
+    }
+
+    function estimateReadTime(blocks) {
+        if (!blocks || !Array.isArray(blocks)) return 2;
+        var words = blocks.reduce(function (acc, b) {
+            if (b._type === 'block' && b.children) {
+                return acc + b.children.reduce(function (a, s) { return a + (s.text ? s.text.split(/\s+/).length : 0); }, 0);
+            }
+            return acc;
+        }, 0);
+        return Math.max(1, Math.ceil(words / 200));
+    }
+
+    function showError(msg) {
+        // Retire skeletons
+        document.getElementById('heroContent').innerHTML = '<h1 class="article-title" style="font-size:2rem;">Article non trouvé</h1>';
+        document.getElementById('metaWrapper').innerHTML = '';
+        document.getElementById('artContent').innerHTML = '<div class="error-box">' + msg + '</div>';
+        document.getElementById('pageFooter').style.display = '';
+    }
+
+    /* ── SCROLL REVEAL ── */
+    function initReveal() {
+        var els = document.querySelectorAll('.reveal');
+        if (!('IntersectionObserver' in window)) { els.forEach(function(el){ el.classList.add('visible'); }); return; }
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+            });
+        }, { threshold: 0.12 });
+        els.forEach(function(el){ observer.observe(el); });
+    }
+
+    /* ── COPIER LE LIEN ── */
+    var copyTimeout = null;
+    window.copyLink = function () {
+        var btn      = document.getElementById('copyBtn');
+        var burst    = document.getElementById('copyBurst');
+        var copyText = document.getElementById('copyText');
+        if (btn.classList.contains('copied')) return;
+
+        var doAnimate = function () {
+            burst.classList.remove('animate'); void burst.offsetWidth; burst.classList.add('animate');
+            copyText.classList.add('hide');
+            setTimeout(function () {
+                btn.classList.add('copied');
+                copyText.textContent = 'COPIÉ ! ✅';
+                copyText.style.transform = 'translateY(6px)'; copyText.style.opacity = '0';
+                void copyText.offsetWidth;
+                copyText.classList.remove('hide'); copyText.style.transform = ''; copyText.style.opacity = '';
+            }, 220);
+            clearTimeout(copyTimeout);
+            copyTimeout = setTimeout(function () {
+                copyText.classList.add('hide');
+                setTimeout(function () {
+                    btn.classList.remove('copied'); copyText.textContent = 'Copier le lien';
+                    copyText.style.transform = 'translateY(6px)'; copyText.style.opacity = '0';
+                    void copyText.offsetWidth;
+                    copyText.classList.remove('hide'); copyText.style.transform = ''; copyText.style.opacity = '';
+                }, 220);
+            }, 2500);
+        };
+
+        navigator.clipboard.writeText(window.location.href).then(doAnimate).catch(function () {
+            var ta = document.createElement('textarea');
+            ta.value = window.location.href; document.body.appendChild(ta); ta.select();
+            document.execCommand('copy'); document.body.removeChild(ta); doAnimate();
+        });
+    };
+}());
+</script>
 </body>
 </html>
