@@ -352,7 +352,6 @@
         }
         .reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
 
-        /* Reveal spécial pour les titres avec rotate — on garde le -1deg dans les deux états */
         .section-title.reveal {
             transform: translateY(60px) scale(0.96) rotate(-1deg);
         }
@@ -392,7 +391,6 @@
             border: 1.5px solid rgba(255,255,255,0.45);
             box-shadow: 0 30px 80px rgba(0,0,0,0.35), 0 2px 0 rgba(255,255,255,0.5) inset;
             z-index: 10;
-            /* Aspect ratio adaptatif */
             aspect-ratio: 16/9;
         }
 
@@ -505,7 +503,7 @@
         .pink-marquee {
             background: linear-gradient(90deg, var(--logo-yellow), #ffec50, var(--logo-yellow));
             color: #000;
-            padding: 11px 0;
+            padding: 20px 0;
             width: 110vw;
             margin-left: -5vw;
             transform: rotate(-1.5deg);
@@ -513,17 +511,39 @@
             border-top: 3px solid rgba(0,0,0,0.12);
             border-bottom: 3px solid rgba(0,0,0,0.12);
             box-shadow: 0 8px 40px rgba(0,0,0,0.15), 0 -2px 0 rgba(255,255,255,0.4) inset;
+            overflow: hidden;
         }
-        .marquee-track { display: inline-flex; white-space: nowrap; animation: marquee-scroll 25s linear infinite; }
+        .marquee-track {
+            display: inline-flex;
+            white-space: nowrap;
+            /* La moitié exacte = 1 répétition complète → seamless */
+            animation: marquee-scroll 90s linear infinite;
+            will-change: transform;
+        }
         .marquee-item {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 0 28px;
-            font-size: 0.95rem;
+            gap: 20px;
+            padding: 0 36px;
+            font-size: 1.25rem;
             white-space: nowrap;
+            flex-shrink: 0;
         }
-        @keyframes marquee-scroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+        .marquee-item .sep {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #000;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+        @keyframes marquee-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
 
         /* ── PUB CAROUSEL ── */
         .pub-carousel-section {
@@ -592,11 +612,12 @@
             transform: rotate(0deg) translate(-2px,-3px);
         }
 
-        /* ── ARTICLES GRID — Scroll Snap ── */
+        /* ── ARTICLES GRID — FIX 1 & 2 ── */
         .grid-row {
             display: flex;
             gap: 24px;
             overflow-x: auto;
+            overflow-y: hidden; /* FIX 1 : empêche le scroll vertical parasite */
             padding: 16px 4px 40px;
             scroll-behavior: smooth;
             scrollbar-width: none;
@@ -604,11 +625,14 @@
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             cursor: grab;
+            /* FIX 1 : autorise le scroll vertical de la page, horizontal pour la grille */
+            touch-action: pan-y;
+            /* FIX 2 : empêche le rebond horizontal qui étire les cartes */
+            overscroll-behavior-x: contain;
         }
         .grid-row:active { cursor: grabbing; }
         .grid-row::-webkit-scrollbar { display: none; }
 
-        /* Scroll hints — gradient fade sur les côtés */
         .articles-scroll-container {
             position: relative;
         }
@@ -628,7 +652,7 @@
             width: var(--card-width);
             min-width: var(--card-width);
             max-width: var(--card-width);
-            flex: 0 0 var(--card-width);
+            flex: 0 0 var(--card-width); /* FIX 2 : flex-shrink:0 garanti, pas d'étirement */
             display: flex;
             flex-direction: column;
             background: rgba(255,255,255,0.85);
@@ -836,7 +860,7 @@
         }
         .newsletter-btn:hover { transform: scale(1.04); }
 
-        /* ── FOOTER ── */
+        /* ── FOOTER — FIX 3 ── */
         footer {
             max-width: 1500px;
             margin: 80px auto 0;
@@ -850,7 +874,18 @@
             z-index: 10;
         }
         .footer-left { font-weight: 900; font-size: 1rem; opacity: .5; }
-        .footer-links { display: flex; gap: 6px; flex-wrap: wrap; list-style: none; padding: 0; margin: 0; }
+        /* FIX 3 : tous les liens footer dans le même groupe visuel */
+        .footer-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 6px;
+            margin: 0;
+            background: rgba(0,0,0,0.04);
+            border-radius: 50px;
+            border: 1px solid rgba(0,0,0,0.07);
+        }
         .footer-links a {
             font-weight: 700;
             font-size: .8rem;
@@ -858,13 +893,13 @@
             letter-spacing: .06em;
             text-decoration: none;
             color: inherit;
-            opacity: .45;
+            opacity: .55;
             padding: 6px 14px;
             border-radius: 50px;
             border: 1.5px solid transparent;
             transition: opacity .2s, background .2s, border-color .2s;
         }
-        .footer-links a:hover { opacity: .9; background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.1); }
+        .footer-links a:hover { opacity: .9; background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.1); }
         .footer-divider { height: 1px; margin: 0 40px; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.1) 70%, transparent); }
 
         /* ── SCROLL TO TOP ── */
@@ -904,7 +939,6 @@
             nav { height: 56px; padding: 0 20px; }
             .nav-logo { height: 30px; }
 
-            /* Hero carousel : ratio 4/3 pour mobile, images bien visibles */
             .carousel-wrapper {
                 width: 94%;
                 border-radius: 16px;
@@ -920,27 +954,21 @@
 
             .top-section { padding: 28px 0 90px; }
 
-            /* Marquee plus compact */
-            .pink-marquee { padding: 8px 0; }
-            .marquee-item { font-size: 0.85rem; padding: 0 20px; gap: 10px; }
+            .pink-marquee { padding: 10px 0; }
+            .marquee-item { font-size: 0.9rem; padding: 0 22px; gap: 14px; }
 
-            /* Pub carousel ratio mobile */
             .pub-carousel-section { width: 94%; margin-top: 40px; }
             .pub-carousel-wrapper { aspect-ratio: 2/1; border-radius: 14px; }
 
-            /* Container */
             .container { padding: 0 16px; margin: 50px auto; }
             .newsletter-section { padding: 0 16px; }
 
-            /* Section title */
             .section-title { font-size: 1.8rem; padding: 8px 20px; margin-bottom: 30px; }
 
-            /* Articles grid mobile */
             :root { --card-width: 300px; --card-img-height: 180px; }
             .grid-row { gap: 14px; padding: 10px 0px 30px; }
             .scroll-indicators { display: flex; }
 
-            /* Newsletter */
             .newsletter-box {
                 flex-direction: column;
                 gap: 24px;
@@ -953,13 +981,10 @@
             .newsletter-input { width: 100%; }
             .newsletter-btn { width: 100%; padding: 16px; }
 
-            /* Social */
             .social-container { flex-direction: column; gap: 14px; }
-            .social-btn {
-            position: relative;
-            overflow: hidden; padding: 16px 24px; font-size: 0.95rem; border-radius: 16px; }
+            .social-btn { position: relative; overflow: hidden; padding: 16px 24px; font-size: 0.95rem; border-radius: 16px; }
 
-            /* Footer */
+            /* FIX 3 mobile : encadré footer adapté */
             footer {
                 padding: 40px 16px 90px;
                 flex-direction: column;
@@ -967,7 +992,13 @@
                 text-align: center;
                 gap: 16px;
             }
-            .footer-links { justify-content: center; gap: 4px; flex-wrap: wrap; }
+            .footer-links {
+                justify-content: center;
+                gap: 4px;
+                flex-wrap: wrap;
+                border-radius: 20px;
+                padding: 8px;
+            }
             .footer-divider { margin: 0 16px; }
 
             .scroll-top { width: 54px; height: 54px; bottom: 24px; right: 16px; border-radius: 16px; }
@@ -977,7 +1008,7 @@
             :root { --card-width: 270px; --card-img-height: 165px; }
             .section-title { font-size: 1.5rem; }
             .carousel-wrapper { aspect-ratio: 4/3; }
-            .carousel-arrow { display: none; } /* Sur très petit mobile, swipe seulement */
+            .carousel-arrow { display: none; }
         }
     </style>
 </head>
@@ -1047,7 +1078,6 @@
     </div>
 
     <div class="nav-mobile-body">
-        <!-- Navigation principale -->
         <div class="nav-mobile-section">
             <a href="index.html" class="nav-mobile-link">
                 Accueil
@@ -1067,7 +1097,6 @@
             </a>
         </div>
 
-        <!-- À propos / Contact -->
         <div class="nav-mobile-section">
             <a href="apropos.html" class="nav-mobile-link">
                 À propos
@@ -1080,7 +1109,6 @@
         </div>
     </div>
 
-    <!-- Réseaux sociaux en bas du menu -->
     <div class="nav-mobile-social">
         <a href="https://www.instagram.com/verschval/" target="_blank" rel="noopener" class="nav-ms-inst">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -1121,7 +1149,7 @@
 </div>
 
 <!-- ══ PUB CAROUSEL ══ -->
-<div class="pub-carousel-section">
+<div class="pub-carousel-section reveal">
     <div class="pub-carousel-wrapper">
         <div class="pub-track" id="pub-track">
             <div class="pub-slide"><img src="pub1.png" alt="Publicité 1" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;opacity:.3;font-weight:900;font-size:1.2rem;\'>Publicité</div>'"></div>
@@ -1179,6 +1207,7 @@
 
 <!-- ══ FOOTER ══ -->
 <div class="footer-divider"></div>
+<!-- FIX 3 : tous les liens dans un seul <nav class="footer-links"> -->
 <footer class="reveal">
     <div class="footer-left">© 2026 DIGN.MÉDIA</div>
     <nav class="footer-links">
@@ -1369,10 +1398,23 @@
 
     /* ─── MARQUEE ─── */
     var marqueeTrack = document.getElementById('marquee-content');
-    var marqueeItems = ["L'information est fiable", "Bienvenue sur le site", "DIGN.MÉDIA", "Actualités 24/7"];
-    marqueeTrack.innerHTML = (marqueeItems.map(function(t) {
-        return '<div class="marquee-item"><span>' + t + '</span> •</div>';
-    }).join('')).repeat(2);
+    var marqueeItems = [
+        "L'information est fiable",
+        "Bienvenue sur le site",
+        "DIGN.MÉDIA",
+        "Actualités 24/7",
+        "Restez informés",
+        "Toute l'actu en direct"
+    ];
+    /* On génère 1 set = HTML d'un passage complet,
+       puis on le duplique exactement → translateX(-50%) = seamless */
+    var oneSet = marqueeItems.map(function(t) {
+        return '<div class="marquee-item"><span>' + t + '</span><span class="sep"></span></div>';
+    }).join('');
+    /* Répéter le set suffisamment pour couvrir n'importe quelle largeur d'écran
+       avant de dupliquer pour le loop : 6 × = ~3000px de contenu, × 2 pour le loop */
+    var repeated = oneSet.repeat(6);
+    marqueeTrack.innerHTML = repeated + repeated; /* 2 moitiés identiques → loop parfait */
 
     /* ─── NEWSLETTER ─── */
     window.handleNewsletter = function() {
@@ -1437,7 +1479,6 @@
 
         grid.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
 
-        /* Scroll indicators */
         setupScrollIndicators(articles.length);
         grid.addEventListener('scroll', function() { updateScrollIndicators(grid); }, { passive: true });
 
