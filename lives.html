@@ -33,7 +33,6 @@
             overflow-x: hidden;
         }
 
-        /* ── BLUR MENU ── */
         .main-content, footer, .footer-divider {
             transition: filter 0.4s ease, opacity 0.4s ease;
         }
@@ -96,14 +95,20 @@
         .nav-actions { display: flex; align-items: center; gap: 12px; }
         .search-icon-btn { background: none; border: none; cursor: pointer; color: inherit; opacity: 0.6; transition: 0.3s; padding: 8px; border-radius: 50%; }
         .search-icon-btn:hover { opacity: 1; background: rgba(255,107,0,0.1); color: var(--logo-orange); }
+        
         .nav-search-bar {
             position: fixed; top: 60px; left: 0; right: 0;
             background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
             padding: 14px 5%; border-bottom: 1px solid var(--glass-border);
             box-shadow: 0 8px 30px rgba(0,0,0,0.08); z-index: 1000;
-            transform: translateY(-110%); transition: transform 0.4s var(--ease-out);
+            transform: translateY(-110%); 
+            visibility: hidden; pointer-events: none;
+            transition: transform 0.4s var(--ease-out), visibility 0.4s;
         }
-        .nav-search-bar.open { transform: translateY(0); }
+        .nav-search-bar.open { 
+            transform: translateY(0); 
+            visibility: visible; pointer-events: all;
+        }
         .nav-search-inner {
             max-width: 700px; margin: 0 auto; display: flex; align-items: center; gap: 12px;
             background: rgba(0,0,0,0.05); border-radius: 50px; padding: 10px 20px;
@@ -150,9 +155,7 @@
         .reveal-delay-2 { transition-delay: .30s; }
         .reveal-delay-3 { transition-delay: .45s; }
 
-        /* ══════════════════════════════════════
-           MAIN CONTENT
-        ══════════════════════════════════════ */
+        /* ══ MAIN CONTENT ══ */
         .main-content {
             min-height: calc(100vh - 60px);
             display: flex;
@@ -163,7 +166,6 @@
             text-align: center;
         }
 
-        /* Fond dégradé animé — plus chaud, plus rouge */
         .main-content::before {
             content: '';
             position: fixed;
@@ -175,17 +177,11 @@
             z-index: 0;
         }
 
-        /* ── Icône — même style que podcasts (gradient orange→rose, glow) ── */
         .live-icon {
-            position: relative;
-            z-index: 1;
-            width: 80px;
-            height: 80px;
-            border-radius: 24px;
+            position: relative; z-index: 1;
+            width: 80px; height: 80px; border-radius: 24px;
             background: linear-gradient(135deg, var(--live-red), var(--logo-orange));
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             margin: 0 auto 32px;
             box-shadow: 0 12px 40px rgba(255,45,45,0.35);
             animation: iconFloat 4s ease-in-out infinite;
@@ -194,14 +190,9 @@
             0%, 100% { transform: translateY(0); }
             50%       { transform: translateY(-8px); }
         }
-
-        /* Point rouge pulsant sur l'icône */
         .live-icon-dot {
-            position: absolute;
-            top: 10px; right: 10px;
-            width: 9px; height: 9px;
-            border-radius: 50%;
-            background: #fff;
+            position: absolute; top: 10px; right: 10px;
+            width: 9px; height: 9px; border-radius: 50%; background: #fff;
             animation: dotBlink 1.3s ease-in-out infinite;
         }
         @keyframes dotBlink {
@@ -209,52 +200,29 @@
             50%       { opacity: 0.3; transform: scale(0.7); }
         }
 
-        /* ── Badge — coloré comme podcasts ── */
         .live-badge {
-            position: relative;
-            z-index: 1;
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: .72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .12em;
-            color: var(--live-red);
-            background: rgba(255,45,45,0.08);
-            border: 1.5px solid rgba(255,45,45,0.20);
-            padding: 5px 14px;
-            border-radius: 50px;
-            margin-bottom: 20px;
+            position: relative; z-index: 1;
+            display: inline-flex; align-items: center; gap: 7px;
+            font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+            color: var(--live-red); background: rgba(255,45,45,0.08);
+            border: 1.5px solid rgba(255,45,45,0.20); padding: 5px 14px;
+            border-radius: 50px; margin-bottom: 20px;
         }
         .live-badge-dot {
             width: 6px; height: 6px; border-radius: 50%;
-            background: var(--live-red);
-            animation: blink 1.4s ease-in-out infinite;
+            background: var(--live-red); animation: blink 1.4s ease-in-out infinite;
         }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.2; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
-        /* ── Titre XXL ── */
         .live-title {
-            position: relative;
-            z-index: 1;
-            font-size: 3rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -.01em;
-            margin: 0 0 16px;
-            line-height: 1.1;
-            color: #1d1d1f;
+            position: relative; z-index: 1;
+            font-size: 3rem; font-weight: 900; text-transform: uppercase;
+            letter-spacing: -.01em; margin: 0 0 16px; line-height: 1.1; color: #1d1d1f;
         }
         .live-title span {
             background: linear-gradient(90deg, var(--live-red), var(--logo-orange), var(--logo-pink), var(--live-red));
             background-size: 300% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
             animation: gradientShift 5s ease-in-out infinite;
         }
         @keyframes gradientShift {
@@ -263,36 +231,18 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* ── Sous-titre ── */
         .live-sub {
-            position: relative;
-            z-index: 1;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1d1d1f;
-            opacity: 0.45;
-            margin: 0 auto 48px;
-            max-width: 420px;
+            position: relative; z-index: 1;
+            font-size: 1rem; font-weight: 600; color: #1d1d1f; opacity: 0.45;
+            margin: 0 auto 48px; max-width: 420px;
         }
 
-        /* ══ Barres live — même principe que l'égaliseur mais style "signal TV" ══
-           Barres plus nombreuses, plus hautes, alternance rouge/orange/rose        */
         .live-bars {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 5px;
-            height: 48px;
-            margin-bottom: 48px;
+            position: relative; z-index: 1;
+            display: flex; align-items: flex-end; justify-content: center;
+            gap: 5px; height: 48px; margin-bottom: 48px;
         }
-        .lb {
-            width: 5px;
-            border-radius: 3px;
-            animation: lb ease-in-out infinite alternate;
-        }
-        /* 13 barres, couleurs et vitesses variées */
+        .lb { width: 5px; border-radius: 3px; animation: lb ease-in-out infinite alternate; }
         .lb:nth-child(1)  { background: var(--live-red);    animation-duration:.42s; animation-delay:0s;     height:30%; }
         .lb:nth-child(2)  { background: var(--logo-orange); animation-duration:.55s; animation-delay:.06s;   height:65%; }
         .lb:nth-child(3)  { background: var(--live-red);    animation-duration:.38s; animation-delay:.02s;   height:50%; }
@@ -306,60 +256,48 @@
         .lb:nth-child(11) { background: var(--live-red);    animation-duration:.40s; animation-delay:.07s;   height:55%; }
         .lb:nth-child(12) { background: var(--logo-orange); animation-duration:.52s; animation-delay:.05s;   height:75%; }
         .lb:nth-child(13) { background: var(--live-red);    animation-duration:.44s; animation-delay:.11s;   height:35%; }
-        @keyframes lb {
-            from { transform: scaleY(.18); }
-            to   { transform: scaleY(1); }
-        }
+        @keyframes lb { from { transform: scaleY(.18); } to { transform: scaleY(1); } }
 
-        /* ── Bouton retour ── */
         .btn-back {
-            position: relative;
-            z-index: 1;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #1d1d1f;
-            color: #fff;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: .92rem;
-            text-decoration: none;
+            position: relative; z-index: 1;
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #1d1d1f; color: #fff; padding: 15px 30px; border-radius: 50px;
+            font-weight: 700; font-size: .92rem; text-decoration: none;
             box-shadow: 0 8px 28px rgba(0,0,0,0.18);
             transition: transform .25s var(--ease-spring), box-shadow .25s;
         }
         .btn-back:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 14px 36px rgba(0,0,0,0.25); }
 
-        /* ── Section lecteur YouTube (quand live actif) ── */
+        /* ══ LIVE PLAYER + CHAT ══ */
         .live-player-section {
             display: none;
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 860px;
+            position: relative; z-index: 1;
+            width: 100%; max-width: 1200px;
             margin: 0 auto 40px;
         }
+
         .live-player-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: .72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .12em;
-            color: #fff;
-            background: var(--live-red);
-            padding: 5px 14px;
-            border-radius: 50px;
-            margin-bottom: 14px;
+            display: inline-flex; align-items: center; gap: 7px;
+            font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+            color: #fff; background: var(--live-red); padding: 5px 14px;
+            border-radius: 50px; margin-bottom: 14px;
         }
         .live-player-badge-dot {
             width: 6px; height: 6px; border-radius: 50%;
-            background: #fff;
-            animation: blink 1.2s ease-in-out infinite;
+            background: #fff; animation: blink 1.2s ease-in-out infinite;
         }
-        .live-player-wrapper {
+
+        /* Layout video + chat */
+        .live-player-layout {
+            display: flex;
+            gap: 14px;
+            align-items: stretch;
             width: 100%;
+        }
+
+        .live-video-wrapper {
+            flex: 1;
+            min-width: 0;
             aspect-ratio: 16/9;
             border-radius: 20px;
             overflow: hidden;
@@ -367,11 +305,95 @@
             border: 1.5px solid rgba(255,255,255,0.5);
             background: #000;
         }
-        .live-player-wrapper iframe {
+        .live-video-wrapper iframe {
             width: 100%; height: 100%; display: block; border: none;
         }
 
-        /* ── FOOTER ── */
+        /* Chat wrapper */
+        .live-chat-wrapper {
+            width: 340px;
+            flex-shrink: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.14), 0 2px 0 rgba(255,255,255,0.5) inset;
+            border: 1.5px solid rgba(255,255,255,0.5);
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        .live-chat-header {
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.95);
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            flex-shrink: 0;
+        }
+        .live-chat-header-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--live-red); animation: blink 1.4s ease-in-out infinite;
+        }
+        .live-chat-header-label {
+            font-size: 0.72rem; font-weight: 900; text-transform: uppercase; letter-spacing: .10em;
+            background: linear-gradient(90deg, var(--logo-orange), var(--logo-pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .live-chat-wrapper iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            display: block;
+            min-height: 300px;
+        }
+
+        /* Bouton toggle chat mobile */
+        .live-chat-toggle {
+            display: none;
+            align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.95);
+            border: 1.5px solid rgba(0,0,0,0.09);
+            border-radius: 50px;
+            padding: 9px 18px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem; font-weight: 700;
+            color: #1d1d1f; cursor: pointer;
+            margin-top: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: transform 0.2s var(--ease-spring), box-shadow 0.2s;
+        }
+        .live-chat-toggle:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+        .live-chat-toggle-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--live-red); animation: blink 1.4s ease-in-out infinite;
+        }
+
+        /* Mobile chat panel (plein écran) */
+        .live-chat-mobile-panel {
+            display: none;
+            position: fixed; inset: 0; z-index: 3000;
+            background: #fff;
+            flex-direction: column;
+        }
+        .live-chat-mobile-panel.open { display: flex; }
+        .live-chat-mobile-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; height: 56px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+        .live-chat-mobile-title {
+            font-weight: 900; font-size: 0.88rem;
+            background: linear-gradient(90deg, var(--logo-orange), var(--logo-pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .live-chat-mobile-close {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(0,0,0,0.07); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; color: #1d1d1f;
+        }
+        .live-chat-mobile-panel iframe {
+            flex: 1; border: none; width: 100%;
+        }
+
         .footer-divider { height: 1px; margin: 0 40px; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.1) 70%, transparent); }
         footer { max-width: 1500px; margin: 0 auto; padding: 40px 40px 60px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; position: relative; z-index: 10; }
         .footer-left { font-weight: 900; font-size: 1rem; opacity: .5; }
@@ -379,11 +401,9 @@
         .footer-links a { font-weight: 700; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; text-decoration: none; color: inherit; opacity: .55; padding: 6px 14px; border-radius: 50px; border: 1.5px solid transparent; transition: opacity .2s, background .2s, border-color .2s; }
         .footer-links a:hover { opacity: .9; background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.1); }
 
-        /* ── SCROLL TO TOP ── */
-        .scroll-top { position: fixed; bottom: 30px; right: 24px; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 60px; height: 60px; border-radius: 18px; background: rgba(0,0,0,0.82); color: #fff; border: 1.5px solid rgba(255,255,255,0.15); backdrop-filter: blur(16px); cursor: pointer; padding: 0; box-shadow: 0 8px 32px rgba(0,0,0,0.3); opacity: 0; pointer-events: none; transition: opacity .35s, transform .25s var(--ease-spring); transform: translateY(16px) scale(0.85); }
+        .scroll-top { position: fixed; bottom: 30px; left: 24px; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 60px; height: 60px; border-radius: 18px; background: rgba(0,0,0,0.82); color: #fff; border: 1.5px solid rgba(255,255,255,0.15); backdrop-filter: blur(16px); cursor: pointer; padding: 0; box-shadow: 0 8px 32px rgba(0,0,0,0.3); opacity: 0; pointer-events: none; transition: opacity .35s, transform .25s var(--ease-spring); transform: translateY(16px) scale(0.85); }
         .scroll-top.visible { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
 
-        /* ── RESPONSIVE ── */
         @media (max-width: 900px) {
             .nav-links { display: none; }
             .nav-burger { display: flex; }
@@ -392,10 +412,102 @@
             .live-title { font-size: 2.1rem; }
             footer { padding: 30px 16px 70px; flex-direction: column; align-items: center; text-align: center; }
             .footer-links { justify-content: center; }
+
+            /* Sur mobile : video pleine largeur, chat en overlay */
+            .live-player-layout { flex-direction: column; }
+            .live-video-wrapper { aspect-ratio: 16/9; width: 100%; }
+            .live-chat-wrapper { display: none; } /* caché sur mobile, remplacé par le panel */
+            .live-chat-toggle { display: inline-flex; }
         }
         @media (max-width: 480px) {
             .live-title { font-size: 1.7rem; }
         }
+
+        /* ══ SONDAGE ══ */
+        #poll-admin-toggle {
+            position: fixed; bottom: 104px; left: 24px; z-index: 1999;
+            width: 56px; height: 56px; border-radius: 16px;
+            background: linear-gradient(135deg, var(--logo-orange), var(--logo-pink));
+            border: none; cursor: pointer; color: #fff;
+            display: none; align-items: center; justify-content: center;
+            box-shadow: 0 8px 28px rgba(255,107,0,0.38);
+            transition: transform 0.25s var(--ease-spring), box-shadow 0.25s, opacity 0.3s;
+            font-size: 1.3rem; opacity: 0;
+        }
+        #poll-admin-toggle.unlocked { display: flex; opacity: 1; }
+        #poll-admin-toggle:hover { transform: scale(1.1); box-shadow: 0 14px 36px rgba(255,107,0,0.48); }
+
+        #poll-toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
+            z-index: 3000; background: #1d1d1f; color: #fff; padding: 14px 24px;
+            border-radius: 50px; font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700;
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            opacity: 0; transition: transform 0.4s var(--ease-spring), opacity 0.3s;
+            pointer-events: none; white-space: nowrap;
+        }
+        #poll-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        #poll-toast .toast-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; flex-shrink: 0; }
+        #poll-toast.toast-success .toast-icon { background: #30d158; }
+        #poll-toast.toast-info    .toast-icon { background: var(--logo-orange); }
+        #poll-toast.toast-hide    .toast-icon { background: #636366; }
+
+        #poll-pw-overlay { position: fixed; inset: 0; z-index: 4000; background: rgba(0,0,0,0.45); display: none; align-items: center; justify-content: center; }
+        #poll-pw-overlay.open { display: flex; }
+        #poll-pw-modal { background: #fff; border-radius: 24px; padding: 32px 28px; width: min(360px, calc(100vw - 40px)); box-shadow: 0 32px 80px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 16px; animation: pwPop 0.35s var(--ease-spring); }
+        @keyframes pwPop { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+        #poll-pw-modal h3 { margin: 0; font-size: 1.1rem; font-weight: 900; text-align: center; }
+        #poll-pw-modal p { margin: 0; font-size: 0.82rem; color: #6e6e73; text-align: center; }
+        #poll-pw-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1.5px solid rgba(0,0,0,0.12); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; outline: none; text-align: center; letter-spacing: .05em; box-sizing: border-box; transition: border-color 0.2s, box-shadow 0.2s; }
+        #poll-pw-input:focus { border-color: var(--logo-orange); box-shadow: 0 0 0 3px rgba(255,107,0,0.12); }
+        #poll-pw-input.error { border-color: #FF2D2D; box-shadow: 0 0 0 3px rgba(255,45,45,0.12); animation: shake 0.35s; }
+        @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        .pw-actions { display: flex; gap: 10px; }
+        .pw-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: transform 0.2s var(--ease-spring); }
+        .pw-btn:hover { transform: translateY(-2px); }
+        .pw-btn-confirm { background: linear-gradient(135deg, var(--logo-orange), var(--logo-pink)); color: #fff; box-shadow: 0 6px 20px rgba(255,107,0,0.3); }
+        .pw-btn-cancel { background: rgba(0,0,0,0.06); color: #1d1d1f; }
+
+        #poll-admin-panel { position: fixed; bottom: 170px; left: 24px; z-index: 1998; width: min(380px, calc(100vw - 48px)); background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border: 1.5px solid rgba(0,0,0,0.09); border-radius: 24px; box-shadow: 0 24px 70px rgba(0,0,0,0.16); overflow: hidden; transform: translateY(20px) scale(0.95); opacity: 0; pointer-events: none; transition: transform 0.35s var(--ease-spring), opacity 0.3s var(--ease-out); }
+        #poll-admin-panel.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+        .poll-panel-header { padding: 16px 20px 14px; border-bottom: 1px solid rgba(0,0,0,0.07); display: flex; align-items: center; justify-content: space-between; }
+        .poll-panel-title { font-weight: 900; font-size: 0.88rem; text-transform: uppercase; letter-spacing: .07em; background: linear-gradient(90deg, var(--logo-orange), var(--logo-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .poll-panel-body { padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 12px; }
+        .poll-field-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #999; margin-bottom: 4px; }
+        .poll-field-group { display: flex; flex-direction: column; gap: 4px; }
+        .poll-input { width: 100%; padding: 10px 14px; border-radius: 12px; border: 1.5px solid rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 600; background: rgba(0,0,0,0.03); color: #1d1d1f; outline: none; transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; }
+        .poll-input:focus { border-color: var(--logo-orange); box-shadow: 0 0 0 3px rgba(255,107,0,0.12); }
+        .poll-options-list { display: flex; flex-direction: column; gap: 6px; }
+        .poll-option-row { display: flex; gap: 8px; align-items: center; }
+        .poll-option-row .poll-input { flex: 1; }
+        .poll-option-remove { width: 32px; height: 32px; flex-shrink: 0; border-radius: 8px; border: none; background: rgba(255,45,45,0.08); color: var(--live-red); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: background 0.2s; }
+        .poll-option-remove:hover { background: rgba(255,45,45,0.18); }
+        .poll-add-option { background: none; border: 1.5px dashed rgba(0,0,0,0.15); border-radius: 10px; padding: 8px; font-family: 'Poppins', sans-serif; font-size: 0.8rem; font-weight: 700; color: #aaa; cursor: pointer; transition: border-color 0.2s, color 0.2s; width: 100%; }
+        .poll-add-option:hover { border-color: var(--logo-orange); color: var(--logo-orange); }
+        .poll-actions { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+        .poll-btn { flex: 1; min-width: 80px; padding: 11px 10px; border-radius: 12px; border: none; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: transform 0.2s var(--ease-spring), box-shadow 0.2s; }
+        .poll-btn:hover { transform: translateY(-2px); }
+        .poll-btn-publish { background: linear-gradient(135deg, var(--logo-orange), var(--logo-pink)); color: #fff; box-shadow: 0 6px 20px rgba(255,107,0,0.3); }
+        .poll-btn-publish:hover { box-shadow: 0 10px 28px rgba(255,107,0,0.4); }
+        .poll-btn-hide { background: rgba(0,0,0,0.06); color: #1d1d1f; }
+        .poll-btn-hide:hover { background: rgba(0,0,0,0.1); }
+        .poll-btn-reset { background: rgba(255,45,45,0.08); color: var(--live-red); }
+        .poll-btn-reset:hover { background: rgba(255,45,45,0.18); }
+
+        #poll-widget { position: fixed; bottom: 30px; right: 24px; z-index: 1997; width: min(320px, calc(100vw - 48px)); background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border: 1.5px solid rgba(0,0,0,0.09); border-radius: 24px; box-shadow: 0 24px 70px rgba(0,0,0,0.16); padding: 20px 22px; display: none; flex-direction: column; gap: 12px; animation: pollSlideIn 0.5s var(--ease-spring); }
+        @keyframes pollSlideIn { from { transform: translateY(30px) scale(0.95); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+        #poll-widget.visible { display: flex; }
+        .poll-widget-header { display: flex; align-items: center; justify-content: space-between; }
+        .poll-widget-tag { font-size: 0.62rem; font-weight: 900; text-transform: uppercase; letter-spacing: .1em; background: linear-gradient(90deg, var(--logo-orange), var(--logo-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .poll-widget-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--live-red); animation: blink 1.4s ease-in-out infinite; }
+        .poll-widget-question { font-size: 0.95rem; font-weight: 800; line-height: 1.3; color: #1d1d1f; }
+        .poll-widget-options { display: flex; flex-direction: column; gap: 8px; }
+        .poll-vote-btn { width: 100%; padding: 0; border: 1.5px solid transparent; border-radius: 12px; background: rgba(0,0,0,0.04); cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.85rem; color: #1d1d1f; overflow: hidden; position: relative; transition: transform 0.2s var(--ease-spring), box-shadow 0.2s, border-color 0.2s; text-align: left; }
+        .poll-vote-btn:hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(255,107,0,0.15); }
+        .poll-vote-btn.voted { border-color: rgba(255,107,0,0.35); background: rgba(255,107,0,0.05); }
+        .poll-vote-btn-inner { position: relative; z-index: 1; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .poll-vote-bar { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, rgba(255,107,0,0.14), rgba(255,26,140,0.07)); border-radius: 10px; transition: width 0.6s var(--ease-out); width: 0%; }
+        .poll-vote-pct { font-size: 0.78rem; opacity: 0.5; font-weight: 700; white-space: nowrap; }
+        .poll-total { font-size: 0.72rem; color: #bbb; font-weight: 600; text-align: right; }
     </style>
 </head>
 <body>
@@ -405,7 +517,6 @@
     <span style="font-size:.5rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em;">Haut</span>
 </button>
 
-<!-- ══ NAV ══ -->
 <nav>
     <div class="nav-inner">
         <a href="index.html" class="nav-logo-link">
@@ -445,7 +556,6 @@
     </div>
 </div>
 
-<!-- ══ MENU MOBILE ══ -->
 <div class="nav-mobile-menu" id="nav-mobile-menu" role="dialog" aria-modal="true">
     <div class="nav-mobile-header">
         <a href="index.html" class="nav-logo-link"><img src="logo-valentin.png" alt="DIGN.MÉDIA" style="height:28px;width:auto;"></a>
@@ -481,24 +591,43 @@
     </div>
 </div>
 
-<!-- ══ CONTENU ══ -->
 <div class="main-content">
 
-    <!-- Section lecteur YouTube (masquée par défaut) -->
+    <!-- ══ SECTION LIVE PLAYER ══ -->
     <div class="live-player-section reveal" id="live-player-section">
         <div class="live-player-badge">
             <span class="live-player-badge-dot"></span>
             En direct
         </div>
-        <div class="live-player-wrapper">
-            <iframe id="yt-iframe" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+        <div class="live-player-layout">
+            <!-- Vidéo -->
+            <div class="live-video-wrapper">
+                <iframe id="yt-iframe"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- Chat desktop -->
+            <div class="live-chat-wrapper">
+                <div class="live-chat-header">
+                    <span class="live-chat-header-dot"></span>
+                    <span class="live-chat-header-label">Chat en direct</span>
+                </div>
+                <iframe id="yt-chat" allowfullscreen></iframe>
+            </div>
         </div>
+
+        <!-- Bouton chat mobile -->
+        <button class="live-chat-toggle" id="live-chat-toggle-btn" onclick="openMobileChat()">
+            <span class="live-chat-toggle-dot"></span>
+            Ouvrir le chat
+        </button>
     </div>
 
-    <!-- Section "aucun direct" -->
+    <!-- ══ SECTION HORS ANTENNE ══ -->
     <div id="no-live-section">
-
-        <!-- Icône -->
         <div class="live-icon reveal">
             <span class="live-icon-dot"></span>
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -506,51 +635,42 @@
                 <rect x="1" y="5" width="15" height="14" rx="2"/>
             </svg>
         </div>
-
-        <!-- Badge -->
         <div class="live-badge reveal reveal-delay-1">
             <span class="live-badge-dot"></span>
             Hors antenne
         </div>
-
-        <!-- Titre -->
         <h1 class="live-title reveal reveal-delay-1">
             Rien à voir<br><span>pour le moment !</span>
         </h1>
-
-        <!-- Sous-titre -->
         <p class="live-sub reveal reveal-delay-1">
             Aucun direct en cours. Revenez bientôt,<br>les prochains lives arrivent !
         </p>
-
-        <!-- Barres animées style signal live -->
         <div class="live-bars reveal reveal-delay-2">
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
-            <div class="lb"></div>
+            <div class="lb"></div><div class="lb"></div><div class="lb"></div>
+            <div class="lb"></div><div class="lb"></div><div class="lb"></div>
+            <div class="lb"></div><div class="lb"></div><div class="lb"></div>
+            <div class="lb"></div><div class="lb"></div><div class="lb"></div>
             <div class="lb"></div>
         </div>
-
-        <!-- Bouton -->
         <a href="index.html" class="btn-back reveal reveal-delay-2">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             Retour à l'accueil
         </a>
-
     </div>
 
 </div>
 
-<!-- ══ FOOTER ══ -->
+<!-- ══ CHAT MOBILE PANEL ══ -->
+<div class="live-chat-mobile-panel" id="live-chat-mobile-panel">
+    <div class="live-chat-mobile-header">
+        <span class="live-chat-mobile-title">💬 Chat en direct</span>
+        <button class="live-chat-mobile-close" onclick="closeMobileChat()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+    <iframe id="yt-chat-mobile" allowfullscreen></iframe>
+</div>
+
 <div class="footer-divider"></div>
 <footer class="reveal">
     <div class="footer-left">© 2026 DIGN.MÉDIA</div>
@@ -566,16 +686,34 @@
 (function () {
     'use strict';
 
-    /* ══ CONFIG — remplace null par l'ID YouTube quand tu es en live ══ */
-    var YOUTUBE_VIDEO_ID = null; // ex: 'dQw4w9WgXcQ'
+    // ⚠️ Remplace par ton domaine exact (sans https://)
+    var EMBED_DOMAIN = 'dignmedia.github.io';
 
-    if (YOUTUBE_VIDEO_ID) {
-        var iframe = document.getElementById('yt-iframe');
-        iframe.src = 'https://www.youtube.com/embed/' + YOUTUBE_VIDEO_ID + '?autoplay=1&mute=0&rel=0';
-        iframe.title = 'DIGN.MÉDIA — Direct YouTube';
-        document.getElementById('live-player-section').style.display = 'block';
-        document.getElementById('no-live-section').style.display = 'none';
-    }
+    var PROXY_URL = 'https://script.google.com/macros/s/AKfycbyPWf2H0HGVllmYJzvhWsPfuaX0SGCig7wzx7ZvhoADjtOOx6aay9an0ENSwgLyLb4F/exec';
+
+    fetch(PROXY_URL)
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+            if (data.items && data.items.length > 0) {
+                var videoId = data.items[0].id.videoId;
+
+                // Iframe vidéo
+                var iframe = document.getElementById('yt-iframe');
+                iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=0&rel=0';
+                iframe.title = 'DIGN.MÉDIA — Direct YouTube';
+
+                // Iframe chat desktop
+                var chatSrc = 'https://www.youtube.com/live_chat?v=' + videoId + '&embed_domain=' + EMBED_DOMAIN;
+                document.getElementById('yt-chat').src = chatSrc;
+
+                // Iframe chat mobile (même URL, chargée à la demande)
+                document.getElementById('yt-chat-mobile').src = chatSrc;
+
+                // Afficher la section player
+                document.getElementById('live-player-section').style.display = 'block';
+                document.getElementById('no-live-section').style.display = 'none';
+            }
+        });
 
     /* ── Scroll reveal ── */
     var revealObs = new IntersectionObserver(function(entries) {
@@ -634,7 +772,298 @@
     var t0 = 0;
     mobileMenu.addEventListener('touchstart', function(e) { t0 = e.touches[0].clientY; }, { passive: true });
     mobileMenu.addEventListener('touchend', function(e) { if (e.changedTouches[0].clientY - t0 < -60) closeMenu(); }, { passive: true });
+
 }());
+
+/* ── Chat mobile ── */
+function openMobileChat() {
+    document.getElementById('live-chat-mobile-panel').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeMobileChat() {
+    document.getElementById('live-chat-mobile-panel').classList.remove('open');
+    document.body.style.overflow = '';
+}
 </script>
+
+<!-- ══ TOAST ══ -->
+<div id="poll-toast">
+    <span class="toast-icon"></span>
+    <span class="toast-msg"></span>
+</div>
+
+<!-- ══ SONDAGE ADMIN TOGGLE ══ -->
+<button id="poll-admin-toggle" title="Gérer le sondage">📊</button>
+
+<!-- ══ PANNEAU ADMIN SONDAGE ══ -->
+<div id="poll-admin-panel">
+    <div class="poll-panel-header">
+        <span class="poll-panel-title">🎙️ Sondage Live</span>
+        <span style="font-size:0.72rem;font-weight:600;color:#bbb;">Admin</span>
+    </div>
+    <div class="poll-panel-body">
+        <div class="poll-field-group">
+            <div class="poll-field-label">Question</div>
+            <input class="poll-input" id="poll-question-input" type="text" placeholder="Ex : Quel est votre avis ?" maxlength="120">
+        </div>
+        <div class="poll-field-group">
+            <div class="poll-field-label">Réponses</div>
+            <div class="poll-options-list" id="poll-options-list">
+                <div class="poll-option-row">
+                    <input class="poll-input" type="text" placeholder="Réponse A" maxlength="60">
+                    <button class="poll-option-remove" onclick="removePollOption(this)" title="Supprimer">✕</button>
+                </div>
+                <div class="poll-option-row">
+                    <input class="poll-input" type="text" placeholder="Réponse B" maxlength="60">
+                    <button class="poll-option-remove" onclick="removePollOption(this)" title="Supprimer">✕</button>
+                </div>
+            </div>
+            <button class="poll-add-option" onclick="addPollOption()">+ Ajouter une réponse</button>
+        </div>
+        <div class="poll-actions">
+            <button class="poll-btn poll-btn-publish" onclick="publishPoll()">Publier</button>
+            <button class="poll-btn poll-btn-hide" onclick="togglePollVisibility()">Masquer</button>
+            <button class="poll-btn poll-btn-reset" onclick="resetPoll()">Réinitialiser</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ WIDGET SONDAGE PUBLIC ══ -->
+<div id="poll-widget">
+    <div class="poll-widget-header">
+        <span class="poll-widget-tag">Sondage</span>
+        <span class="poll-widget-live-dot"></span>
+    </div>
+    <div class="poll-widget-question" id="poll-widget-question">Chargement…</div>
+    <div class="poll-widget-options" id="poll-widget-options"></div>
+    <div class="poll-total" id="poll-total">0 vote</div>
+</div>
+
+<script>
+/* ══ SONDAGE — Google Sheets backend ══ */
+var POLL_API = 'https://script.google.com/macros/s/AKfycbxFQnUzSaARaZ_zcrObG4S0gPjz1Z0LQX5qW3KAzP1rq_jtraGnLXywY2xk8auC_kMy/exec';
+
+var pollState = {
+    question: '', options: [], votes: [], visible: false, userVote: -1, polling: null
+};
+
+var adminUnlocked = false;
+
+/* ══ ADMIN VIA URL TOKEN + IP (verifie cote Google Apps Script) ══
+   Acces : live.html?admin=Shiva%2302%2F09%2F2012
+   Le GAS verifie que l IP correspond a 87.88.129.117 ET que le token est correct.
+*/
+(function checkAdminAccess() {
+    var params = new URLSearchParams(window.location.search);
+    var token  = params.get('admin');
+    if (!token) return;
+
+    // 1. Récupérer l'IP publique via ipify
+    fetch('https://api.ipify.org?format=json')
+        .then(function(r) { return r.json(); })
+        .then(function(ipData) {
+            var ip = ipData.ip || '';
+            // 2. Envoyer IP + token au GAS pour vérification
+            return fetch(POLL_API + '?action=checkAdmin&token=' + encodeURIComponent(token) + '&userIp=' + encodeURIComponent(ip) + '&_=' + Date.now());
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+            if (res && res.admin === true) {
+                adminUnlocked = true;
+                var btn = document.getElementById('poll-admin-toggle');
+                btn.style.display = 'flex';
+                setTimeout(function() { btn.classList.add('unlocked'); }, 10);
+                showToast('success', '\u2713', 'Mode admin activ\u00e9');
+                // Nettoyer l'URL pour cacher le token
+                window.history.replaceState({}, '', window.location.pathname);
+            } else {
+                showToast('hide', '\u2717', 'Acc\u00e8s refus\u00e9');
+            }
+        })
+        .catch(function() { showToast('hide', '!', 'Erreur de v\u00e9rification'); });
+}());
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.getElementById('poll-admin-panel').classList.remove('open');
+    }
+});
+
+document.getElementById('poll-admin-toggle').addEventListener('click', function() {
+    document.getElementById('poll-admin-panel').classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+    var panel  = document.getElementById('poll-admin-panel');
+    var toggle = document.getElementById('poll-admin-toggle');
+    if (panel.classList.contains('open') && !panel.contains(e.target) && !toggle.contains(e.target)) {
+        panel.classList.remove('open');
+    }
+});
+
+function addPollOption() {
+    var list = document.getElementById('poll-options-list');
+    var letters = 'ABCDEFGH';
+    var idx = list.children.length;
+    if (idx >= 8) return;
+    var row = document.createElement('div');
+    row.className = 'poll-option-row';
+    row.innerHTML = '<input class="poll-input" type="text" placeholder="Réponse ' + (letters[idx] || (idx+1)) + '" maxlength="60">'
+        + '<button class="poll-option-remove" onclick="removePollOption(this)" title="Supprimer">&#10005;</button>';
+    list.appendChild(row);
+}
+function removePollOption(btn) {
+    var list = document.getElementById('poll-options-list');
+    if (list.children.length <= 2) return;
+    btn.parentElement.remove();
+}
+
+function publishPoll() {
+    var q = document.getElementById('poll-question-input').value.trim();
+    if (!q) { document.getElementById('poll-question-input').focus(); return; }
+    var rows = document.getElementById('poll-options-list').querySelectorAll('.poll-option-row input');
+    var opts = [];
+    rows.forEach(function(inp) { var v = inp.value.trim(); if (v) opts.push(v); });
+    if (opts.length < 2) { alert('Ajoutez au moins 2 réponses.'); return; }
+    setBtnLoading('.poll-btn-publish', true);
+    apiPost({ action: 'publish', question: q, options: opts }, function(res) {
+        setBtnLoading('.poll-btn-publish', false);
+        if (res && res.ok) {
+            pollState.userVote = -1;
+            document.getElementById('poll-admin-panel').classList.remove('open');
+            document.querySelector('.poll-btn-hide').textContent = 'Masquer';
+            showToast('success', '\u2713', 'Sondage publié — visible par tous');
+            startPolling();
+        } else { alert('Erreur lors de la publication.'); }
+    });
+}
+
+function togglePollVisibility() {
+    var btn = document.querySelector('.poll-btn-hide');
+    var newVisible = btn.textContent.trim() === 'Afficher';
+    setBtnLoading('.poll-btn-hide', true);
+    apiPost({ action: 'visibility', visible: newVisible }, function(res) {
+        setBtnLoading('.poll-btn-hide', false);
+        if (res && res.ok) {
+            pollState.visible = newVisible;
+            applyVisibility();
+            btn.textContent = newVisible ? 'Masquer' : 'Afficher';
+            showToast(newVisible ? 'info' : 'hide', newVisible ? '👁' : '🙈', newVisible ? 'Sondage affiché' : 'Sondage masqué');
+        }
+    });
+}
+
+function resetPoll() {
+    if (!confirm('Réinitialiser le sondage et effacer tous les votes ?')) return;
+    setBtnLoading('.poll-btn-reset', true);
+    apiPost({ action: 'reset' }, function(res) {
+        setBtnLoading('.poll-btn-reset', false);
+        if (res && res.ok) {
+            pollState = { question:'', options:[], votes:[], visible:false, userVote:-1, polling: pollState.polling };
+            document.getElementById('poll-question-input').value = '';
+            document.getElementById('poll-options-list').innerHTML =
+                '<div class="poll-option-row"><input class="poll-input" type="text" placeholder="Réponse A" maxlength="60">'
+                + '<button class="poll-option-remove" onclick="removePollOption(this)">&#10005;</button></div>'
+                + '<div class="poll-option-row"><input class="poll-input" type="text" placeholder="Réponse B" maxlength="60">'
+                + '<button class="poll-option-remove" onclick="removePollOption(this)">&#10005;</button></div>';
+            document.getElementById('poll-widget').classList.remove('visible');
+            document.querySelector('.poll-btn-hide').textContent = 'Masquer';
+            showToast('hide', '↺', 'Sondage réinitialisé');
+        }
+    });
+}
+
+function castVote(idx) {
+    var oldIdx = pollState.userVote;
+    if (oldIdx === idx) return;
+    var payload = oldIdx === -1
+        ? { action: 'vote', index: idx }
+        : { action: 'changevote', old_index: oldIdx, new_index: idx };
+    if (oldIdx !== -1) pollState.votes[oldIdx] = Math.max(0, pollState.votes[oldIdx] - 1);
+    pollState.votes[idx]++;
+    pollState.userVote = idx;
+    renderPollWidget();
+    apiPost(payload, function(res) {
+        if (res && res.ok && res.votes) { pollState.votes = res.votes; renderPollWidget(); }
+    });
+}
+
+function renderPollWidget() {
+    document.getElementById('poll-widget-question').textContent = pollState.question;
+    var optsEl = document.getElementById('poll-widget-options');
+    optsEl.innerHTML = '';
+    var total = pollState.votes.reduce(function(a, b) { return a + b; }, 0);
+    pollState.options.forEach(function(opt, i) {
+        var pct = total > 0 ? Math.round(pollState.votes[i] / total * 100) : 0;
+        var btn = document.createElement('button');
+        btn.className = 'poll-vote-btn' + (pollState.userVote === i ? ' voted' : '');
+        btn.innerHTML = '<div class="poll-vote-bar" style="width:' + pct + '%"></div>'
+            + '<div class="poll-vote-btn-inner"><span>' + escHtml(opt) + '</span>'
+            + (total > 0 ? '<span class="poll-vote-pct">' + pct + '%</span>' : '') + '</div>';
+        (function(ii) { btn.addEventListener('click', function() { castVote(ii); }); })(i);
+        optsEl.appendChild(btn);
+    });
+    document.getElementById('poll-total').textContent = total + (total <= 1 ? ' vote' : ' votes');
+    applyVisibility();
+}
+
+function applyVisibility() {
+    var widget = document.getElementById('poll-widget');
+    if (pollState.visible && pollState.options.length >= 2) widget.classList.add('visible');
+    else widget.classList.remove('visible');
+}
+
+function startPolling() {
+    fetchPollState();
+    if (pollState.polling) clearInterval(pollState.polling);
+    pollState.polling = setInterval(fetchPollState, 4000);
+}
+
+function fetchPollState() {
+    fetch(POLL_API + '?action=get&_=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+            if (!res || !res.ok) return;
+            var d = res.data;
+            pollState.question = d.question;
+            pollState.options  = d.options;
+            pollState.votes    = d.votes;
+            pollState.visible  = d.visible;
+            var hideBtn = document.querySelector('.poll-btn-hide');
+            if (hideBtn) hideBtn.textContent = d.visible ? 'Masquer' : 'Afficher';
+            if (d.question) renderPollWidget();
+            else applyVisibility();
+        })
+        .catch(function() {});
+}
+
+function showToast(type, icon, msg) {
+    var toast = document.getElementById('poll-toast');
+    toast.className = 'toast-' + type;
+    toast.querySelector('.toast-icon').textContent = icon;
+    toast.querySelector('.toast-msg').textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function() { toast.classList.remove('show'); }, 3000);
+}
+
+function apiPost(payload, cb) {
+    fetch(POLL_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(function(r) { return r.json(); }).then(cb).catch(function() { cb(null); });
+}
+
+function setBtnLoading(selector, loading) {
+    var btn = document.querySelector(selector);
+    if (!btn) return;
+    btn.disabled = loading;
+    btn.style.opacity = loading ? '0.5' : '';
+}
+
+function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+startPolling();
+</script>
+
 </body>
 </html>
